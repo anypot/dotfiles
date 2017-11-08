@@ -1,5 +1,3 @@
-! vim: set filetype=xdefaults :
-
 URxvt.perl-ext-common : default,keyboard-select,url-select,clipboard
 
 URxvt.keysym.M-x           : perl:keyboard-select:activate
@@ -12,21 +10,19 @@ URxvt.url-select.launcher  : firefox
 URxvt.url-select.autocopy  : true
 URxvt.url-select.underline : true
 
-URxvt.geometry  : 119x45
+URxvt.geometry : 119x45
 
-! URxvt.font        : xft:Dejavu Sans Mono:pixelsize=20
 URxvt.font        : xft:Inconsolata:pixelsize=20
 URxvt.letterSpace : 0
 URxvt.termName    : rxvt-unicode-256color
 URxvt.iso14755    : false
 
-URxvt.urgentOnBell: true
+URxvt.urgentOnBell : true
 
 URxvt.saveLines   : 12000
 URxvt.scrollBar   : false
 URxvt.scrollstyle : rxvt
 
-! XFT
 Xft.lcdfilter : lcddefault
 Xft.hinting   : true
 Xft.hintstyle : hintfull
@@ -34,12 +30,10 @@ Xft.antialias : true
 Xft.rgba      : rgb
 Xft.dpi	      : 221
 
-URxvt*cursorBlink:	true
+URxvt*cursorBlink : true
 
-URxvt.Depth : 32
-URxvt*.transparent  : True
-URxvt*.shading: 30
+URxvt.Depth		: 32
+URxvt*.transparent	: True
+URxvt*.shading		: 30
 
-#include "/home/tony/.colors/base16-xresources/xresources/base16-solarized-dark.Xresources"
-
-URxvt.urlLauncher:     /usr/bin/firefox
+URxvt.urlLauncher : /usr/bin/firefox

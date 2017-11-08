@@ -1,15 +1,12 @@
 [submodule "zsh/.oh-my-zsh"]
 	path = zsh/.oh-my-zsh
 	url = git://github.com/robbyrussell/oh-my-zsh.git
-[submodule "zsh/.colors/base16-shell"]
-	path = zsh/.colors/base16-shell
-	url = https://github.com/chriskempson/base16-shell
-[submodule "xorg/.colors/base16-xresources"]
-	path = xorg/.colors/base16-xresources
-	url = https://github.com/chriskempson/base16-xresources
 [submodule "vim/.vim/bundle/base16-vim"]
 	path = vim/.vim/bundle/base16-vim
 	url = https://github.com/chriskempson/base16-vim.git
 [submodule "vim/.vim/bundle/vim-python-pep8-indent"]
 	path = vim/.vim/bundle/vim-python-pep8-indent
 	url = https://github.com/Vimjas/vim-python-pep8-indent.git
+[submodule "zsh/.config/base16-shell"]
+	path = zsh/.config/base16-shell
+	url = https://github.com/chriskempson/base16-shell
