@@ -1,0 +1,14 @@
+conky.config = {
+        short_units = true,
+        background = true,
+        out_to_console = true,
+        out_to_x = false,
+        -- Update interval in seconds
+        update_interval = 3,
+}
+
+conky.text = [[
+A \uf028 %{F\#FF6666EA}${exec amixer -c 1 get Master -M | grep Mono: | cut -d "[" -f2 | cut -d "]" -f1}%{F-} \
+${if_running mpd}${if_mpd_playing}%{F\#FF68615E}|%{F-} \uf001 ${mpd_status}: %{F\#FF6666EA}${mpd_smart 60}%{F-} [${mpd_elapsed}/${mpd_length}] ${endif}${endif}
+]]
+

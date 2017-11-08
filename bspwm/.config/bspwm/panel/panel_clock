@@ -1,0 +1,14 @@
+conky.config = {
+	short_units = true,
+	background = true,
+	out_to_console = true,
+	out_to_x = false,
+	uppercase = true,
+	-- Update interval in seconds
+	update_interval = 3,
+	update_interval_on_battery = 3
+}
+
+conky.text = [[
+C${time %A %d.} %{F\#FF6666EA}${time %H:%M}%{F-}
+]]

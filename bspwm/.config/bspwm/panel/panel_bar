@@ -1,0 +1,59 @@
+#! /bin/sh
+
+. ./panel_colors
+
+while read -r line ; do
+	case $line in
+		C*)
+			# Clock output
+			clock_info="${line#?}"
+			;;
+		W*)
+			# bspwm internal state
+			wm_info=""
+			IFS=':'
+			set -- ${line#?}
+			while [ $# -gt 0 ] ; do
+				item=$1
+				name=${item#?}
+				case $item in
+					O*)
+						# focused occupied desktop
+						wm_info="$wm_info %{F$COLOR_OCCUPIED_FG}%{U$COLOR_FOCUSED_UNDERLINE}%{+u} ${name} %{-u}%{F-}"
+						;;
+					F*)
+						# focused free desktop
+						wm_info="$wm_info %{F$COLOR_FREE_FG}%{U$COLOR_FOCUSED_UNDERLINE}%{+u} ${name} %{-u}%{F-}"
+						;;
+					U*)
+						# focused urgent desktop
+						wm_info="$wm_info %{F$COLOR_URGENT_FG}%{U$COLOR_FOCUSED_UNDERLINE}%{+u} ${name} %{-u}%{F-}"
+						;;
+					o*)
+						# occupied desktop
+						wm_info="$wm_info %{F$COLOR_OCCUPIED_FG}${name}%{F-}"
+						;;
+					f*)
+						# free desktop
+						wm_info="$wm_info %{F$COLOR_FREE_FG}${name}%{F-}"
+						;;
+					u*)
+						# urgent desktop
+						wm_info="$wm_info %{F$COLOR_URGENT_FG}${name}%{F-}"
+						;;
+					#L*)
+					#	# layout
+					#	layout=$(printf "%s" "${name}" | sed 's/\(.\).*/\U\1/')
+					#	wm_info="$wm_info    %{F$COLOR_LAYOUT_FG}%{B$COLOR_LAYOUT_BG}$layout"
+					#	;;
+				esac
+				shift
+			done
+			;;
+		B*)
+			# Power output
+			power_info="${line#?}"
+			;;
+	esac
+	echo -e "$power_info%{c}$wm_info%{r}%{F#FF68615E}\uf017%{F-} $clock_info "
+done

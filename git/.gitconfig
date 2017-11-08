@@ -1,0 +1,8 @@
+[user]
+	name = Anthony 'anypot' Poinsot
+	email = anypot@posteo.net
+	signingkey = 9D8F246B
+[merge]
+	tool = vimdiff
+[gpg]
+	program = gpg2

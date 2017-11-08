@@ -1,0 +1,33 @@
+#! /bin/sh
+
+. ./panel_colors
+
+POWER=`acpi -b | sed 's/,//g' | awk '{print $4}' | sed 's/%//g'`
+STATUS=`acpi -b | awk '{print $3}' | sed 's/,//g'`
+
+if [ $POWER -le 10 ]; then
+	BAT_ICON="\uf244"
+elif [ $POWER -le 30 ]; then
+	BAT_ICON="\uf243"
+elif [ $POWER -le 60 ]; then
+        BAT_ICON="\uf242"
+elif [ $POWER -le 80 ]; then
+        BAT_ICON="\uf241"
+else
+	BAT_ICON="\uf240"
+fi
+
+if [ $STATUS != "Discharging" ]
+then
+	echo -e "%{F$COLOR_CHARGING_BATTERY}$BAT_ICON $POWER%%{F-}"
+else
+        if [ $POWER -le 10 ]; then
+                BAT_COLOR="$COLOR_LOW_BATTERY"
+		echo -e "%{F$COLOR_LOW_BATTERY}$BAT_ICON $POWER%%{F-}"
+        elif [ $POWER -le 40 ]; then
+		echo -e "%{F$COLOR_MID_BATTERY}$BAT_ICON $POWER%%{F-}"
+        else
+		echo -e "$BAT_ICON %{F$COLOR_FOCUSED_UNDERLINE}$POWER%%{F-}"
+        fi
+fi
+

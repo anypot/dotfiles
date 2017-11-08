@@ -1,0 +1,38 @@
+#! /bin/sh
+
+cd $(dirname $0)
+
+PANEL_FIFO="/tmp/panel-fifo"
+PANEL_FIFO2="/tmp/panel-fifo2"
+PANEL_HEIGHT=40
+
+if [ $(pgrep -cx panel) -gt 1 ] ; then
+	printf "%s\n" "The panel is already running." >&2
+	exit 1
+fi
+
+trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
+
+[ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
+mkfifo "$PANEL_FIFO"
+
+[ -e "$PANEL_FIFO2" ] && rm "$PANEL_FIFO2"
+mkfifo "$PANEL_FIFO2"
+
+bspc config top_padding $PANEL_HEIGHT
+bspc config bottom_padding $PANEL_HEIGHT
+
+bspc subscribe > "$PANEL_FIFO" &
+conky -c ./panel_battery > "$PANEL_FIFO" &
+conky -c ./panel_clock > "$PANEL_FIFO" &
+conky -c ./panel_audio > "$PANEL_FIFO2" &
+conky -c ./panel_system > "$PANEL_FIFO2" &
+
+. ./panel_colors
+
+FONT_FAMILY="Inconsolata-10"
+FONT_AWESOME="FontAwesome-10"
+cat "$PANEL_FIFO" | ./panel_bar | lemonbar -g x$PANEL_HEIGHT -f "$FONT_FAMILY" -f "$FONT_AWESOME" -F "$COLOR_FOREGROUND" -B "$COLOR_BACKGROUND" -u 5 &
+cat "$PANEL_FIFO2" | ./panel_bar2 | lemonbar -b -g x$PANEL_HEIGHT -f "$FONT_FAMILY" -f "$FONT_AWESOME" -F "$COLOR_FOREGROUND" -B "$COLOR_BACKGROUND" -u 5 &
+
+wait

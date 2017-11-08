@@ -1,0 +1,17 @@
+#! /bin/sh
+
+. ./panel_colors
+
+while read -r line ; do
+	case $line in
+		A*)
+			# Audio conky output
+			audio_info="${line#?}"
+			;;
+		S*)
+			# System conky output
+			system_info="${line#?}"
+			;;
+	esac
+	echo -e "%{l}$audio_info%{r}$system_info "
+done

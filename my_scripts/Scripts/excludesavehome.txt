@@ -1,0 +1,16 @@
+Backup
+Backup/*
+Build
+Build/*
+Documents
+Documents/*
+Downloads
+Downloads/*
+Music
+Music/*
+Pictures
+Pictures/*
+Videos
+Videos/*
+.fgfs
+.fgfs/*

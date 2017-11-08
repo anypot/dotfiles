@@ -1,0 +1,9 @@
+#!/bin/sh
+
+. ./panel_colors
+
+QUAL=`iwconfig wlo1 | grep 'Link Quality=' | awk '{gsub(/[=/]/," "); print $3}'`
+MAX=`iwconfig wlo1 | grep 'Link Quality=' | awk '{gsub(/[=/]/," "); print $4}'`
+PERC=`echo $QUAL*100/$MAX | bc`
+
+echo -e "%{F$COLOR_FOCUSED_UNDERLINE}$PERC%%{F-}"

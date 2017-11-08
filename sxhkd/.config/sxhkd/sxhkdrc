@@ -1,0 +1,198 @@
+#######################################
+# WM independent hotkeys
+#######################################
+ 
+# Terminal emulator
+super + Return
+	urxvtc
+
+# Program launcher
+super + space
+	dmenu_run -b -p "RUN" -l 10 -fn "-xos4-terminus-bold-r-*-*-22-*" -nf "#F1EFEE" -nb "#1B1918" -sb "#6666EA"
+
+# Volume
+XF86Audio{Raise,Lower}Volume
+        amixer -c 1 set Master 3{+,-}
+XF86AudioMute
+        amixer -c 1 set Master toggle
+
+# Brightness
+XF86MonBrightness{Up,Down}
+       xbacklight {+,-}5
+
+# Music player
+XF86AudioPlay
+        mpc toggle
+XF86Audio{Prev,Next}
+        mpc {prev,next}
+
+# Screenshots
+Print
+        scrot ~/Pictures/%Y-%m-%dT%T_screenshot.png
+shift + Print
+        scrot ~/Pictures/%Y-%m-%dT%T_screenshot.png; scrot -t 20 ~/Pictures/%Y-%m-%dT%T_screenshot.png
+
+# Explorer
+super + e
+	urxvtc -e ranger
+
+# Make sxhkd reload its configuration files: 
+super + Escape
+        pkill -USR1 -x sxhkd
+
+#######################################
+# BSPWM hotkeys
+#######################################
+
+# Quit BSPWM
+super + alt + Escape
+	pkill panel && bspc quit
+
+# Close and kill
+super + {_,shift + }z 
+	bspc node -{c,k}
+
+# Alternate between the tiled and monocle layout
+super + m
+	bspc desktop -l next
+
+# If the current node is automatic, send it to the last manual, otherwise pull the last leaf
+super + y
+        bspc query -N -n focused.automatic && bspc node -n last.!automatic || bspc node last.leaf -n focused
+
+# Swap the current node and the biggest node
+super + g
+        bspc node -s biggest
+
+#######################################
+# State/flags
+#######################################
+ 
+# Set the window state
+super + {t,shift + t,s,f}
+        bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+# Set the node flags
+super + ctrl + {x,y,z}
+        bspc node -g {locked,sticky,private}
+
+#######################################
+# Focus/swap
+#######################################
+
+# Focus the node in the given direction
+super + {_,shift + }{h,j,k,l}
+        bspc node -{f,s} {west,south,north,east}
+
+# Focus the node for the given path jump
+super + {p,b,comma,semicolon}
+        bspc node -f @{parent,brother,first,second}
+       
+# Focus the next/previous node in the current desktop
+super + {_,shift + }c
+        bspc node -f {next,prev}.local
+
+# Focus the next/previous desktop in the current monitor
+super + {parenright, equal}
+        bspc desktop -f {prev,next}.local
+
+# Focus the last node/desktop
+super + {shift +,_}Tab
+	bspc {node,desktop} -f last
+
+# Focus the older or newer node in the focus history
+super + {o,i}           
+        bspc wm -h off; \
+        bspc node {older,newer} -f; \
+        bspc wm -h on
+
+# Focus to the given desktop
+super + ampersand                                                                                           
+        bspc desktop -f ^1
+super + eacute
+        bspc desktop -f ^2
+super + quotedbl
+        bspc desktop -f ^3
+super + apostrophe
+        bspc desktop -f ^4
+super + parenleft
+        bspc desktop -f ^5
+super + minus
+        bspc desktop -f ^6
+super + egrave
+        bspc desktop -f ^7
+super + underscore
+        bspc desktop -f ^8
+super + ccedilla
+        bspc desktop -f ^9
+super + agrave
+        bspc desktop -f ^10
+
+# Send to the given desktop
+super + {1-9,0}                                                                                             
+        bspc node -d ^{1-9,10}
+
+#######################################
+# Preselect
+#######################################
+
+# Preselect the direction
+super + ctrl + {h,j,k,l}
+        bspc node -p {west,south,north,east}
+
+# Preselect the ratio
+super + ctrl + {1-9}
+        bspc node -o 0.{1-9}
+
+# Cancel the preselection for the focused node/desktop
+super + ctrl + {_,shift + }space                                                                            
+        bspc {node -p cancel,desktop -c}
+
+# Cancel the preselection for the focused desktop
+super + ctrl + shift + space
+        bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+#######################################
+# Move/resize
+#######################################
+
+# Expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
+        bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# Contract a window by moving one of its side inward
+super + alt + shift + {h,j,k,l}
+        bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# Move a floating window
+super + {Left,Down,Up,Right}
+        bspc node -v {-20 0,0 20,0 -20,20 0}
+
+#######################################
+# ON EN FAIT QUOI ?
+#######################################
+#
+#super + b
+#       bspc desktop -B
+#super + ugrave
+#       bspc node -s last
+#
+#super + {semicolon,colon}
+#       bspc desktop -C {backward,forward}
+
+#######################################
+# Pointer focus/move/resize
+#######################################
+
+~button1
+	bspc pointer -g focus
+
+super + button{1-3}
+	bspc pointer -g {move,resize_side,resize_corner}
+
+super + !button{1-3}
+	bspc pointer -t %i %i
+
+super + @button{1-3}
+	bspc pointer -u
+

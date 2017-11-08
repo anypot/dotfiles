@@ -1,0 +1,16 @@
+conky.config = {
+        short_units = true,
+        background = true,
+        out_to_console = true,
+        out_to_x = false,
+        uppercase = true,
+        -- Update interval in seconds
+        update_interval = 3,
+        update_interval_on_battery = 3
+}
+
+conky.text = [[
+S${if_running dhcpcd --noipv4ll wlo1}\uf1eb ${wireless_essid wlo1} ${exec ./panel_wifi} \uf093 %{F\#FF6666EA}${upspeed wlo1}%{F-} \uf019 %{F\#FF6666EA}${downspeed wlo1}%{F-} %{F\#FF68615E}|%{F-}${endif} \
+\uf2db %{F\#FF6666EA}${cpu cpu0}%%{F-} \uf2c9 %{F\#FF6666EA}${hwmon temp 1}°C%{F-} \
+MEM %{F\#FF6666EA}${mem}%{F-}
+]]
