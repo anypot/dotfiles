@@ -1,4 +1,5 @@
 #!/bin/sh
+
 BACKUP_DIR="Backup"
 SCRIPTS_DIR="Scripts"
 DOTFILES_DIR="dotfiles"
