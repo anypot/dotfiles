@@ -2,9 +2,7 @@
 # -t = filter by default
 
 DNS_IP="37.187.0.40"
-DNS_PORT=54
-#DNS_IP="176.56.237.171"
-#DNS_PORT=443
+DNS_PORT=53
 
 ##############################################################################
 # FLUSH TABLES
@@ -25,8 +23,11 @@ iptables -A OUTPUT -o lo -j ACCEPT
 # DNS
 iptables -A INPUT -p udp -m udp --sport 53 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 iptables -A OUTPUT -p udp -m udp --dport 53 -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT 
-#iptables -A INPUT -p udp -m udp -s $DNS_IP --sport $DNS_PORT -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
-#iptables -A OUTPUT -p udp -m udp -d $DNS_IP --dport $DNS_PORT -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p udp -m udp -s $DNS_IP --sport $DNS_PORT -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -p udp -m udp -d $DNS_IP --dport $DNS_PORT -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
+# UDP required to retrieve the DNSCrypt certificates
+iptables -A INPUT -p udp -m udp -s $DNS_IP --sport 443 -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -p udp -m udp -d $DNS_IP --dport 443 -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
 
 ##############################################################################
 # PING

@@ -12,5 +12,5 @@ Pictures
 Pictures/*
 Videos
 Videos/*
-.fgfs
-.fgfs/*
+.gnupg
+.gnupg/*
