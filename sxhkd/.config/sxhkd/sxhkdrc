@@ -107,7 +107,7 @@ super + {o,i}
         bspc wm -h on
 
 # Focus to the given desktop
-super + ampersand                                                                                           
+super + ampersand
         bspc desktop -f ^1
 super + eacute
         bspc desktop -f ^2
@@ -128,9 +128,21 @@ super + ccedilla
 super + agrave
         bspc desktop -f ^10
 
+# Balance = Adjust the split ratios of the tree rooted at the selected node so that all windows occupy the same area
+super + b
+        bspc node -B
+
 # Send to the given desktop
-super + {1-9,0}                                                                                             
+super + {1-9,0}
         bspc node -d ^{1-9,10}
+
+# Swap the focused node with the last node
+super + ugrave
+        bspc node -s last
+
+# What could I do with this : Circulate the windows of the tree rooted at the selected node
+# super + {colon, !}
+#        bspc node -C {backward,forward}
 
 #######################################
 # Preselect
@@ -145,7 +157,7 @@ super + ctrl + {1-9}
         bspc node -o 0.{1-9}
 
 # Cancel the preselection for the focused node/desktop
-super + ctrl + {_,shift + }space                                                                            
+super + ctrl + {_,shift + }space
         bspc {node -p cancel,desktop -c}
 
 # Cancel the preselection for the focused desktop
@@ -167,18 +179,6 @@ super + alt + shift + {h,j,k,l}
 # Move a floating window
 super + {Left,Down,Up,Right}
         bspc node -v {-20 0,0 20,0 -20,20 0}
-
-#######################################
-# ON EN FAIT QUOI ?
-#######################################
-#
-#super + b
-#       bspc desktop -B
-#super + ugrave
-#       bspc node -s last
-#
-#super + {semicolon,colon}
-#       bspc desktop -C {backward,forward}
 
 #######################################
 # Pointer focus/move/resize

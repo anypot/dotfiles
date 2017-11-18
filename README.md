@@ -1,4 +1,12 @@
-# Git + GNU stow = EZ backups
+# Dotfiles
+
+Here is my dotfiles management for my first Arch Linux laptop :)
+
+## Git + GNU stow = EZ backups
+This repository is organized as a set of [stow](https://www.gnu.org/software/stow/) packages.
+
+### How to
+
 Navigate to your home directory
 
 `cd ~`
