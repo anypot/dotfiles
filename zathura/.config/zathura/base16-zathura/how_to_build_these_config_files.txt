@@ -1,0 +1,15 @@
+### How to get base16 colors configuration files for zathura with a python builder
+
+git clone https://github.com/InspectorMustache/base16-builder-python
+cd base16-builder-python
+# Create virtual environment for python and pip
+python -m venv venv
+source venv/bin/activate
+# Install the base16 python builder
+pip install pybase16-builder
+# Get updated schemes and templates
+pybase16 update
+# Build zathura configs for all of the schemes in "output" directory
+pybase16 build -t zathura
+# Exit the virtual environment
+deactivate

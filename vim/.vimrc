@@ -12,6 +12,4 @@ endif
 set number
 set cursorline
 
-map <F11> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
-
 au BufRead /tmp/mutt-* set tw=72

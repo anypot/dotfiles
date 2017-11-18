@@ -2,6 +2,8 @@
 
 Here is my dotfiles management for my first Arch Linux laptop :)
 
+![My Desktop](https://raw.github.com/anypot/dotfiles/master/desktop_scrot.png)
+
 ## Git + GNU stow = EZ backups
 This repository is organized as a set of [stow](https://www.gnu.org/software/stow/) packages.
 
