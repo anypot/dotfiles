@@ -34,7 +34,11 @@ shift + Print
 
 # Explorer
 super + e
-	urxvtc -e ranger
+	urxvtc -name ranger -e zsh -c "source ~/.zshrc && ranger"
+
+# Music player
+super + n
+	urxvtc -name ncmpcpp -e zsh -c "source ~/.zshrc && ncmpcpp"
 
 # Auto-type passwords with KeePass
 ctrl + alt + a
@@ -183,20 +187,3 @@ super + alt + shift + {h,j,k,l}
 # Move a floating window
 super + {Left,Down,Up,Right}
         bspc node -v {-20 0,0 20,0 -20,20 0}
-
-#######################################
-# Pointer focus/move/resize
-#######################################
-
-~button1
-	bspc pointer -g focus
-
-super + button{1-3}
-	bspc pointer -g {move,resize_side,resize_corner}
-
-super + !button{1-3}
-	bspc pointer -t %i %i
-
-super + @button{1-3}
-	bspc pointer -u
-
