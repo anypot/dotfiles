@@ -36,6 +36,10 @@ shift + Print
 super + e
 	urxvtc -e ranger
 
+# Auto-type passwords with KeePass
+ctrl + alt + a
+	keepass --auto-type
+
 # Make sxhkd reload its configuration files: 
 super + Escape
         pkill -USR1 -x sxhkd
