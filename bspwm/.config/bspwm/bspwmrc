@@ -19,8 +19,8 @@ bspc monitor -d TERM WEB MAIL DEV OFFICE CHAT MEDIA VMS DOWNLOADS PASSWORDS
 bspc rule -a feh state=floating center=on 
 bspc rule -a URxvt:ncmpcpp state=floating
 bspc rule -a Pinentry:pinentry state=floating
-bspc rule -a Firefox desktop=WEB follow=on
-bspc rule -a Firefox:Places state=floating
+bspc rule -a firefox desktop=WEB follow=on
+bspc rule -a firefox:Places state=floating
 bspc rule -a Thunderbird desktop=MAIL follow=on
 bspc rule -a Thunderbird:Msgcompose state=floating
 bspc rule -a URxvt:ranger desktop=OFFICE follow=on
