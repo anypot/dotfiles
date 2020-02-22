@@ -42,7 +42,7 @@ super + n
 
 # Auto-type passwords with KeePass
 ctrl + alt + a
-	keepass --auto-type
+	mono /usr/share/keepass/KeePass.exe --auto-type
 
 # Make sxhkd reload its configuration files: 
 super + Escape
