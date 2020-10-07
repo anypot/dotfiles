@@ -57,7 +57,7 @@ super + alt + Escape
 	pkill panel && bspc quit
 
 # Close and kill
-super + {_,shift + }z 
+super + {_,shift + }w
 	bspc node -{c,k}
 
 # Alternate between the tiled and monocle layout
@@ -101,7 +101,7 @@ super + {_,shift + }c
         bspc node -f {next,prev}.local
 
 # Focus the next/previous desktop in the current monitor
-super + {parenright, equal}
+super + {minus, equal}
         bspc desktop -f {prev,next}.local
 
 # Focus the last node/desktop
@@ -115,37 +115,37 @@ super + {o,i}
         bspc wm -h on
 
 # Focus to the given desktop
-super + ampersand
-        bspc desktop -f ^1
-super + eacute
-        bspc desktop -f ^2
-super + quotedbl
-        bspc desktop -f ^3
-super + apostrophe
-        bspc desktop -f ^4
-super + parenleft
-        bspc desktop -f ^5
-super + minus
-        bspc desktop -f ^6
-super + egrave
-        bspc desktop -f ^7
-super + underscore
-        bspc desktop -f ^8
-super + ccedilla
-        bspc desktop -f ^9
-super + agrave
-        bspc desktop -f ^10
+super + {1-9,0}
+	bspc desktop -f ^{1-9,10}
 
 # Balance = Adjust the split ratios of the tree rooted at the selected node so that all windows occupy the same area
 super + b
         bspc node -B
 
 # Send to the given desktop
-super + {1-9,0}
-        bspc node -d ^{1-9,10}
+super + exclam
+        bspc node -d ^1
+super + at
+        bspc node -d ^2
+super + numbersign
+        bspc node -d ^3
+super + dollar
+        bspc node -d ^4
+super + percent
+        bspc node -d ^5
+super + asciicircum
+        bspc node -d ^6
+super + ampersand
+        bspc node -d ^7
+super + asterisk
+        bspc node -d ^8
+super + parenleft
+        bspc node -d ^9
+super + parenright
+        bspc node -d ^10
 
 # Swap the focused node with the last node
-super + ugrave
+super + apostrophe
         bspc node -s last
 
 # What could I do with this : Circulate the windows of the tree rooted at the selected node
