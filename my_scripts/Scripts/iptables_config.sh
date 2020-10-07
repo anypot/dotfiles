@@ -86,6 +86,11 @@ iptables -A INPUT -p udp -m udp --sport 21027 -m conntrack --ctstate RELATED,EST
 iptables -A OUTPUT -p udp -m udp --dport 21027 -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
 
 ##############################################################################
+# GOOGLE MEET
+iptables -A INPUT -p udp -m udp --sport 19302:19309 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -p udp -m udp --dport 19302:19309 -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
+
+##############################################################################
 # SAVING RULES AND RESTART
 iptables-save > /etc/iptables/iptables.rules
 systemctl restart iptables
