@@ -95,6 +95,7 @@ alias more='less'
 alias top='htop'
 alias diff='vimdiff'
 
+alias ssh='TERM=rxvt-256color ssh'
 alias ping='ping -c 5'
 alias wget='wget -c'
 alias ports='sudo netstat -tulanp'
