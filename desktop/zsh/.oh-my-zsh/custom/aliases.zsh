@@ -1,0 +1,6 @@
+alias more='less'
+alias top='htop'
+alias vi='nvim'
+alias diff='nvim -d'
+alias shutdown='sudo shutdown -h now'
+alias reboot='sudo reboot'
