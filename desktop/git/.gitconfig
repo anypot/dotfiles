@@ -1,0 +1,22 @@
+[user]
+        name = Anthony 'anypot' Poinsot
+        email = anypot@posteo.net
+        signingkey = 9D8F246B
+[gpg]
+        program = gpg2
+[commit]
+        gpgsign = true
+[credential]
+        helper = cache
+[merge]
+	tool = nvimdiff
+[mergetool]
+	prompt = true
+[mergetool "nvimdiff"]
+	cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+[difftool]
+	prompt = false
+[diff]
+	tool = nvimdiff
+[difftool "nvimdiff"]
+	cmd = nvim -d $LOCAL $REMOTE

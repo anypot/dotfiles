@@ -9,26 +9,18 @@ This repository is organized as a set of [stow](https://www.gnu.org/software/sto
 
 ### How to
 
-Navigate to your home directory
+Clone the repo in your home directory
 
-`cd ~`
+`cd $HOME && git clone https://github.com/anypot/dotfiles.git`
 
-Clone the repo
+Install the laptop zsh settings
 
-`git clone https://github.com/anypot/dotfiles.git`
+`stow zsh -d dotfiles/laptop -t $HOME`
 
-Enter the dotfiles directory
+Install the laptop vim settings
 
-`cd dotfiles`
+`stow vim -d dotfiles/laptop -t $HOME`
 
-Install the zsh settings
+Etc... To symlink all of the desktop config files (usable from any directory !)
 
-`stow zsh`
-
-Install the vim settings
-
-`stow vim`
-
-Etc... To symlink all of the config files
-
-`for dir in */ ; do ; stow $dir ; done`
+`for dir in $HOME/dotfiles/desktop/*; do stow $(basename $dir) -d $HOME/dotfiles/desktop -t $HOME; done`
