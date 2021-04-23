@@ -4,6 +4,7 @@ alias vi='nvim'
 alias diff='nvim -d'
 alias shutdown='sudo shutdown -h now'
 alias reboot='sudo reboot'
+alias ssh='TERM=rxvt-256color ssh'
 
 # exa
 alias ls='exa'                                                         # ls
