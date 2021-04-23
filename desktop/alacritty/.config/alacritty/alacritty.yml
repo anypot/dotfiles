@@ -134,4 +134,4 @@ schemes:
       magenta: '#ff92d0'
       cyan:    '#9aedfe'
       white:   '#e6e6e6'
-colors: *dracula
+colors: *gruvbox_dark
