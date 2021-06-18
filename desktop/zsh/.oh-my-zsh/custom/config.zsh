@@ -13,6 +13,8 @@ export MOVPLAY="mpv"
 export TERMINAL="alacritty"
 # For ranger :terminal command
 export TERMCMD="alacritty"
+# For fzf
+export FZF_DEFAULT_COMMAND="fd --type file --hidden --no-ignore"
 
 for ext in md PKGBUILD py tex txt;                   do alias -s $ext=$EDITOR; done
 for ext in com html net no org php;                  do alias -s $ext=$BROWSER; done

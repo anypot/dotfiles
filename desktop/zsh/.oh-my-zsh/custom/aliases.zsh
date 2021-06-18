@@ -1,3 +1,4 @@
+alias cat='bat'
 alias more='less'
 alias top='htop'
 alias vi='nvim'
@@ -13,8 +14,8 @@ alias ll='exa -lbGF --git'                                             # long li
 alias llm='exa -lbGF --git --sort=modified'                            # long list, modified date sort
 alias la='exa -lbhHigUmuSa --time-style=long-iso --git --color-scale'  # all list
 alias lx='exa -lbhHigUmuSa@ --time-style=long-iso --git --color-scale' # all + extended list
-alias lS='exa -1'			                                                  # one column, just names
-alias lt='exa --tree --level=2'                                         # tree
+alias lS='exa -1'                                                      # one column, just names
+alias lt='exa --tree --level=2'                                        # tree
 
 # Misc
 alias weather='curl wttr.in'
