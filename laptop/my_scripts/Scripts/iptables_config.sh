@@ -91,6 +91,11 @@ iptables -A INPUT -p udp -m udp --sport 19302:19309 -m conntrack --ctstate RELAT
 iptables -A OUTPUT -p udp -m udp --dport 19302:19309 -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
 
 ##############################################################################
+# SMB
+iptables -A INPUT -p tcp -m tcp --sport 445 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -p tcp -m tcp --dport 445 -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
+
+##############################################################################
 # SAVING RULES AND RESTART
 iptables-save > /etc/iptables/iptables.rules
 systemctl restart iptables
