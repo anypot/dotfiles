@@ -1,0 +1,13 @@
+session_name: sample
+windows:
+- window_name: home
+  start_directory: ~/
+  shell_command_before:
+    - sleep 1
+    - clear
+  layout: tiled
+  panes:
+    - htop
+    - pane
+    - pane
+    - pane
