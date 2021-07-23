@@ -21,6 +21,7 @@ vim.api.nvim_exec(
 local use = require('packer').use
 require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- The package manager itself
+  use 'tpope/vim-fugitive' -- Git commands in nvim
   use 'tpope/vim-commentary' -- "gc" to comment visual regions/lines
   use 'tpope/vim-surround' -- Mappings to easily operate on "s"urroundings (like parentheses, brackets, quotes, XML tags,...)
   use 'tpope/vim-repeat' -- "." can be used to repeat a plugin map!
