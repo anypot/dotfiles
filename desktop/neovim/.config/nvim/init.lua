@@ -27,9 +27,17 @@ require('packer').startup(function()
   use 'tpope/vim-surround' -- Mappings to easily operate on "s"urroundings (like parentheses, brackets, quotes, XML tags,...)
   use 'tpope/vim-repeat' -- "." can be used to repeat a plugin map!
   use { 'nvim-telescope/telescope.nvim', requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } } } -- UI to select things (files, grep results, open buffers...)
+  use 'folke/tokyonight.nvim' -- Color theme
+  use 'kyazdani42/nvim-web-devicons' -- Adds filetype glyphs to plugins
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines 
   use 'andweeb/presence.nvim' -- What's the point in using vim if you're not telling the world?
 end)
+
+-- Set colorscheme
+vim.o.termguicolors = true
+--vim.g.tokyonight_style = "night" -- default = storm
+vim.g.tokyonight_sidebars = { "packer" }
+vim.cmd[[colorscheme tokyonight]]
 
 -- Incremental live completion
 vim.o.inccommand = 'nosplit'
@@ -39,7 +47,7 @@ vim.wo.number = true
 vim.wo.relativenumber = true
 
 -- Enable mouse mode
-vim.o.mouse = 'a'
+-- vim.o.mouse = 'a'
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -68,10 +76,22 @@ vim.g.indent_blankline_show_first_indent_level = false
 vim.g.indent_blankline_show_trailing_blankline_indent = false
 
 -- Telescope
-require('telescope').setup{
+require('telescope').setup {
   defaults = {
+    vimgrep_arguments = {
+      'rg',
+      '--color=never',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+      '--smart-case',
+      '--hidden'
+    },
+    file_ignore_patterns = { '.git' },
     prompt_prefix = "🔍 ",
-    selection_caret = "➤ "
+    selection_caret = "➤ ",
+    color_devicons = true,
   }
 }
 
@@ -88,7 +108,7 @@ vim.api.nvim_set_keymap('n', 'j', "v:count == 0 ? 'gj' : 'j'", { noremap = true,
 -- Telescope shortcuts (<leader> and "f"uzzy find...)
 vim.api.nvim_set_keymap('n', '<leader><space>', [[<cmd>lua require('telescope.builtin').buffers()<CR>]], { noremap = true, silent = true }) -- vim buffers
 vim.api.nvim_set_keymap('n', '<leader>?', [[<cmd>lua require('telescope.builtin').oldfiles()<CR>]], { noremap = true, silent = true }) -- previously open files
-vim.api.nvim_set_keymap('n', '<leader>ff', [[<cmd>lua require('telescope.builtin').find_files()<CR>]], { noremap = true, silent = true }) -- "f"ile names
+vim.api.nvim_set_keymap('n', '<leader>ff', [[<cmd>lua require('telescope.builtin').find_files({ hidden=true })<CR>]], { noremap = true, silent = true }) -- "f"ile names
 vim.api.nvim_set_keymap('n', '<leader>fw', [[<cmd>lua require('telescope.builtin').grep_string()<CR>]], { noremap = true, silent = true }) -- the current "w"ord in files
 vim.api.nvim_set_keymap('n', '<leader>fg', [[<cmd>lua require('telescope.builtin').live_grep()<CR>]], { noremap = true, silent = true }) -- a string "g"lobally (grep)
 vim.api.nvim_set_keymap('n', '<leader>fl', [[<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>]], { noremap = true, silent = true }) -- a string "l"ocally
