@@ -139,7 +139,6 @@ require('nvim-treesitter.configs').setup {
       scope_incremental = "grc",
     },
   },
-
   textobjects = {
     select = {
       enable = true,
@@ -176,6 +175,9 @@ vim.g.maplocalleader = ' '
 -- Remap for dealing with word wrap
 vim.api.nvim_set_keymap('n', 'k', "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })
 vim.api.nvim_set_keymap('n', 'j', "v:count == 0 ? 'gj' : 'j'", { noremap = true, expr = true, silent = true })
+
+-- Copy to system clipboard in normal, visual, select and operator modes
+vim.api.nvim_set_keymap('', '<leader>y', '"+y', { noremap = true, silent = true })
 
 -- Telescope shortcuts (<leader> and "f"uzzy find...)
 vim.api.nvim_set_keymap('n', '<leader><space>', [[<cmd>lua require('telescope.builtin').buffers()<CR>]], { noremap = true, silent = true }) -- vim buffers
