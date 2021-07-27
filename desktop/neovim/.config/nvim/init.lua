@@ -28,6 +28,7 @@ require('packer').startup(function()
   use 'tpope/vim-repeat' -- "." can be used to repeat a plugin map!
   use { 'nvim-telescope/telescope.nvim', requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } } } -- UI to select things (files, grep results, open buffers...)
   use 'folke/tokyonight.nvim' -- Color theme
+  use { 'hoob3rt/lualine.nvim', requires = { 'kyazdani42/nvim-web-devicons', opt = true } } -- Statusline
   use 'kyazdani42/nvim-web-devicons' -- Adds filetype glyphs to plugins
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines 
   use { 'nvim-treesitter/nvim-treesitter', branch = '0.5-compat', run = ':TSUpdate' } -- Interface for the tree-sitter library in Neovim 
@@ -93,6 +94,13 @@ require('gitsigns').setup {
     -- Text objects
     ['o ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>',
     ['x ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>'
+  }
+}
+
+-- Lualine
+require('lualine').setup {
+  options = {
+    theme = 'tokyonight',
   }
 }
 
