@@ -29,6 +29,7 @@ require('packer').startup(function()
   use 'tpope/vim-commentary' -- "gc" to comment visual regions/lines
   use 'tpope/vim-surround' -- Mappings to easily operate on "s"urroundings (like parentheses, brackets, quotes, XML tags,...)
   use 'tpope/vim-repeat' -- "." can be used to repeat a plugin map!
+  use { 'folke/which-key.nvim', config = function() require('which-key').setup() end } -- Shows suggestions to complete a key binding
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines 
   --use 'folke/tokyonight.nvim' -- Color theme
   use 'navarasu/onedark.nvim' -- Color theme
@@ -61,6 +62,7 @@ require('bufferline').setup {
   options = {
     show_buffer_close_icons = false,
     show_close_icon = false,
+    diagnostics = 'nvim_lsp',
   },
 }
 
