@@ -30,19 +30,39 @@ require('packer').startup(function()
   use 'tpope/vim-surround' -- Mappings to easily operate on "s"urroundings (like parentheses, brackets, quotes, XML tags,...)
   use 'tpope/vim-repeat' -- "." can be used to repeat a plugin map!
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines 
-  use 'folke/tokyonight.nvim' -- Color theme
+  --use 'folke/tokyonight.nvim' -- Color theme
+  use 'navarasu/onedark.nvim' -- Color theme
   use 'folke/zen-mode.nvim' -- Distraction-free coding
   use { 'folke/twilight.nvim', config = function() require('twilight').setup() end } -- Dims inactive portions of the code
   use { 'hoob3rt/lualine.nvim', requires = { 'kyazdani42/nvim-web-devicons', opt = true } } -- Statusline
+  use { 'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons' } -- Show and sort buffers as tabs
   use 'kyazdani42/nvim-web-devicons' -- Adds filetype glyphs to plugins
   use 'andweeb/presence.nvim' -- What's the point in using vim if you're not telling the world?
 end)
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.g.tokyonight_style = "night" -- default = storm
-vim.g.tokyonight_sidebars = { "packer" }
-vim.cmd[[colorscheme tokyonight]]
+--vim.g.tokyonight_style = "night" -- default = storm
+--vim.g.tokyonight_sidebars = { "packer" }
+--vim.cmd[[colorscheme tokyonight]]
+vim.g.onedark_style = 'darker'
+require('onedark').setup()
+
+-- Lualine
+require('lualine').setup {
+  options = {
+    -- theme = 'tokyonight',
+    theme = 'onedark',
+  },
+}
+
+-- Bufferline
+require('bufferline').setup {
+  options = {
+    show_buffer_close_icons = false,
+    show_close_icon = false,
+  },
+}
 
 -- Incremental live completion
 vim.o.inccommand = 'nosplit'
@@ -97,13 +117,6 @@ require('gitsigns').setup {
     ['o ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>',
     ['x ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>'
   }
-}
-
--- Lualine
-require('lualine').setup {
-  options = {
-    theme = 'tokyonight',
-  },
 }
 
 -- Indent-blankline
