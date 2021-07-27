@@ -21,18 +21,20 @@ vim.api.nvim_exec(
 local use = require('packer').use
 require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- The package manager itself
+  use { 'nvim-treesitter/nvim-treesitter', branch = '0.5-compat', run = ':TSUpdate' } -- Interface for the tree-sitter library in Neovim 
+  use 'nvim-treesitter/nvim-treesitter-textobjects' -- Additional textobjects for treesitter
+  use { 'nvim-telescope/telescope.nvim', requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } } } -- UI to select things (files, grep results, open buffers...)
   use 'tpope/vim-fugitive' -- Git commands in nvim
   use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- Add git related info in the signs columns and popups
   use 'tpope/vim-commentary' -- "gc" to comment visual regions/lines
   use 'tpope/vim-surround' -- Mappings to easily operate on "s"urroundings (like parentheses, brackets, quotes, XML tags,...)
   use 'tpope/vim-repeat' -- "." can be used to repeat a plugin map!
-  use { 'nvim-telescope/telescope.nvim', requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } } } -- UI to select things (files, grep results, open buffers...)
+  use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines 
   use 'folke/tokyonight.nvim' -- Color theme
+  use 'folke/zen-mode.nvim' -- Distraction-free coding
+  use { 'folke/twilight.nvim', config = function() require('twilight').setup() end } -- Dims inactive portions of the code
   use { 'hoob3rt/lualine.nvim', requires = { 'kyazdani42/nvim-web-devicons', opt = true } } -- Statusline
   use 'kyazdani42/nvim-web-devicons' -- Adds filetype glyphs to plugins
-  use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines 
-  use { 'nvim-treesitter/nvim-treesitter', branch = '0.5-compat', run = ':TSUpdate' } -- Interface for the tree-sitter library in Neovim 
-  use 'nvim-treesitter/nvim-treesitter-textobjects' -- Additional textobjects for treesitter
   use 'andweeb/presence.nvim' -- What's the point in using vim if you're not telling the world?
 end)
 
@@ -101,7 +103,7 @@ require('gitsigns').setup {
 require('lualine').setup {
   options = {
     theme = 'tokyonight',
-  }
+  },
 }
 
 -- Indent-blankline
@@ -174,6 +176,14 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
+-- Zen-mode
+require("zen-mode").setup {
+  plugins = {
+    twilight = { enabled = true },
+    gitsigns = { enabled = true },
+    tmux = { enabled = true },
+  },
+}
 
 -- Remap space as leader key
 vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true })
