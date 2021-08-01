@@ -23,7 +23,8 @@ require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- The package manager itself
   use { 'nvim-treesitter/nvim-treesitter', branch = '0.5-compat', run = ':TSUpdate' } -- Interface for the tree-sitter library in Neovim 
   use 'nvim-treesitter/nvim-treesitter-textobjects' -- Additional textobjects for treesitter
-  use { 'neovim/nvim-lspconfig' } -- Manages the Nvim LSP client
+  use 'neovim/nvim-lspconfig' -- Manages the Nvim LSP client
+  use 'hrsh7th/nvim-compe' -- Autocompletion
   use { 'nvim-telescope/telescope.nvim', requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } } } -- UI to select things (files, grep results, open buffers...)
   use 'tpope/vim-fugitive' -- Git commands in nvim
   use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- Add git related info in the signs columns and popups
@@ -258,14 +259,32 @@ local on_attach = function(_, bufnr)
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Enable the following language servers
 local servers = { 'gopls' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
-    capabilities = capabilities,
+    -- capabilities = capabilities,
   }
 end
+
+-- Set completeopt to have a better completion experience
+vim.o.completeopt = 'menuone,noselect'
+
+-- Compe setup
+require('compe').setup {
+  source = {
+    path = true,
+    nvim_lsp = true,
+    luasnip = false,
+    buffer = false,
+    calc = false,
+    nvim_lua = false,
+    vsnip = false,
+    ultisnips = false,
+    emoji = false,
+  },
+}
