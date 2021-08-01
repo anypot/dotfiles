@@ -67,6 +67,12 @@ require('bufferline').setup {
   },
 }
 
+-- Bufferline shortcuts
+vim.api.nvim_set_keymap('n', '[b', [[<cmd>lua require('bufferline').cycle(-1)<CR>]], { noremap = true, silent = true }) -- Navigate to the previous buffer
+vim.api.nvim_set_keymap('n', ']b', [[<cmd>lua require('bufferline').cycle(1)<CR>]], { noremap = true, silent = true }) -- Navigate to the next buffer
+vim.api.nvim_set_keymap('n', '[B', [[<cmd>lua require('bufferline').move(-1)<CR>]], { noremap = true, silent = true }) -- Move the current buffer forwards in the bufferline
+vim.api.nvim_set_keymap('n', ']B', [[<cmd>lua require('bufferline').move(1)<CR>]], { noremap = true, silent = true }) -- Move the current buffer backwards in the bufferline
+
 -- Incremental live completion
 vim.o.inccommand = 'nosplit'
 
@@ -260,6 +266,6 @@ local servers = { 'gopls' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
-    -- capabilities = capabilities,
+    capabilities = capabilities,
   }
 end
