@@ -28,6 +28,7 @@ require('packer').startup(function()
   use 'L3MON4D3/LuaSnip' -- Snippet engine
   use 'rafamadriz/friendly-snippets' -- Snippets for different languages
   use { 'nvim-telescope/telescope.nvim', requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } } } -- UI to select things (files, grep results, open buffers...)
+  use 'kyazdani42/nvim-tree.lua' -- File explorer tree
   use 'ludovicchabant/vim-gutentags' -- Automatic tags management
   use 'tpope/vim-fugitive' -- Git commands in nvim
   use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- Add git related info in the signs columns and popups
@@ -247,6 +248,10 @@ vim.api.nvim_set_keymap('n', '<leader>ft', [[<cmd>lua require('telescope.builtin
 -- vim.api.nvim_set_keymap('n', '<leader>fo', [[<cmd>lua require('telescope.builtin').tags{ only_current_buffer = true }<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>fc', [[<cmd>lua require('telescope.builtin').current_buffer_tags()<CR>]], { noremap = true, silent = true }) -- tags only for the "c"urrently open buffer
 vim.api.nvim_set_keymap('n', '<leader>fh', [[<cmd>lua require('telescope.builtin').help_tags()<CR>]], { noremap = true, silent = true }) -- "h"elp
+
+-- Nvim-tree shortcuts 
+vim.api.nvim_set_keymap('n', '<C-n>', '<Esc>:NvimTreeToggle<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>n', '<Esc>:NvimTreeFindFile<CR>', { noremap = true, silent = true })
 
 -- LSP settings
 local nvim_lsp = require 'lspconfig'
