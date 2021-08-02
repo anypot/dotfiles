@@ -25,7 +25,10 @@ require('packer').startup(function()
   use 'nvim-treesitter/nvim-treesitter-textobjects' -- Additional textobjects for treesitter
   use 'neovim/nvim-lspconfig' -- Manages the Nvim LSP client
   use 'hrsh7th/nvim-compe' -- Autocompletion
+  use 'L3MON4D3/LuaSnip' -- Snippet engine
+  use 'rafamadriz/friendly-snippets' -- Snippets for different languages
   use { 'nvim-telescope/telescope.nvim', requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } } } -- UI to select things (files, grep results, open buffers...)
+  use 'ludovicchabant/vim-gutentags' -- Automatic tags management
   use 'tpope/vim-fugitive' -- Git commands in nvim
   use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- Add git related info in the signs columns and popups
   use 'tpope/vim-commentary' -- "gc" to comment visual regions/lines
@@ -77,6 +80,12 @@ vim.api.nvim_set_keymap('n', ']B', [[<cmd>lua require('bufferline').move(1)<CR>]
 -- Incremental live completion
 vim.o.inccommand = 'nosplit'
 
+-- Remove highlight on search
+vim.o.hlsearch = false
+
+-- Hide buffers in background instead of closing them when opening a new file
+vim.o.hidden = true
+
 -- Turn current line number + relative numbers on
 vim.wo.number = true
 vim.wo.relativenumber = true
@@ -86,6 +95,13 @@ vim.wo.relativenumber = true
 
 -- Enable break indent
 vim.o.breakindent = true
+
+-- Case insensitive searching unless /C or capital in search
+vim.o.ignorecase = true
+vim.o.smartcase = true
+
+-- Always display the sign column to avoid the text jumping to the right the first time you make a change to a file (because of Gitsigns)
+vim.wo.signcolumn = 'yes'
 
 -- Highlight on yank
 vim.api.nvim_exec(
@@ -259,15 +275,15 @@ local on_attach = function(_, bufnr)
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
 end
 
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
--- capabilities.textDocument.completion.completionItem.snippetSupport = true
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Enable the following language servers
 local servers = { 'gopls' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
-    -- capabilities = capabilities,
+    capabilities = capabilities,
   }
 end
 
@@ -276,11 +292,12 @@ vim.o.completeopt = 'menuone,noselect'
 
 -- Compe setup
 require('compe').setup {
+  enabled = true,
   source = {
     path = true,
     nvim_lsp = true,
-    luasnip = false,
-    buffer = false,
+    luasnip = true,
+    buffer = true,
     calc = false,
     nvim_lua = false,
     vsnip = false,
@@ -288,3 +305,55 @@ require('compe').setup {
     emoji = false,
   },
 }
+
+-- Utility functions for compe and luasnip
+local t = function(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+local check_back_space = function()
+  local col = vim.fn.col '.' - 1
+  if col == 0 or vim.fn.getline('.'):sub(col, col):match '%s' then
+    return true
+  else
+    return false
+  end
+end
+
+-- Use (s-)tab to:
+--- move to prev/next item in completion menuone
+--- jump to prev/next snippet's placeholder
+local luasnip = require 'luasnip'
+require("luasnip/loaders/from_vscode").load()
+
+_G.tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t '<C-n>'
+  elseif luasnip.expand_or_jumpable() then
+    return t '<Plug>luasnip-expand-or-jump'
+  elseif check_back_space() then
+    return t '<Tab>'
+  else
+    return vim.fn['compe#complete']()
+  end
+end
+
+_G.s_tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t '<C-p>'
+  elseif luasnip.jumpable(-1) then
+    return t '<Plug>luasnip-jump-prev'
+  else
+    return t '<S-Tab>'
+  end
+end
+
+-- Map tab to the above tab complete functions
+vim.api.nvim_set_keymap('i', '<Tab>', 'v:lua.tab_complete()', { expr = true })
+vim.api.nvim_set_keymap('s', '<Tab>', 'v:lua.tab_complete()', { expr = true })
+vim.api.nvim_set_keymap('i', '<S-Tab>', 'v:lua.s_tab_complete()', { expr = true })
+vim.api.nvim_set_keymap('s', '<S-Tab>', 'v:lua.s_tab_complete()', { expr = true })
+
+-- Map compe confirm and complete functions
+vim.api.nvim_set_keymap('i', '<cr>', 'compe#confirm("<cr>")', { expr = true })
+vim.api.nvim_set_keymap('i', '<c-space>', 'compe#complete()', { expr = true })
