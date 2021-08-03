@@ -1,6 +1,6 @@
-local nvim_lsp = require 'lspconfig'
+local nvim_lsp = require('lspconfig')
 local on_attach = function(_, bufnr)
-  require 'lsp_signature'.on_attach{ hint_enable=false, }
+  require('lsp_signature').on_attach({ hint_enable = false })
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   local opts = { noremap = true, silent = true }
@@ -22,7 +22,7 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>so', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], opts)
-  vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
+  vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -32,14 +32,14 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
     'documentation',
     'detail',
     'additionalTextEdits',
-  }
+  },
 }
 
 -- Enable the following language servers
 local servers = { 'gopls' }
 for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
+  nvim_lsp[lsp].setup({
     on_attach = on_attach,
     capabilities = capabilities,
-  }
+  })
 end

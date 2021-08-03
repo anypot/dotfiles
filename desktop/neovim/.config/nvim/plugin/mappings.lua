@@ -38,8 +38,8 @@ local t = function(str)
 end
 
 local check_back_space = function()
-  local col = vim.fn.col '.' - 1
-  if col == 0 or vim.fn.getline('.'):sub(col, col):match '%s' then
+  local col = vim.fn.col('.') - 1
+  if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
     return true
   else
     return false
@@ -63,11 +63,11 @@ require('luasnip/loaders/from_vscode').load()
 --- jump to prev/next snippet's placeholder
 _G.tab_complete = function()
   if vim.fn.pumvisible() == 1 then
-    return t '<C-n>'
+    return t('<C-n>')
   elseif luasnip and luasnip.expand_or_jumpable() then
-    return t '<Plug>luasnip-expand-or-jump'
+    return t('<Plug>luasnip-expand-or-jump')
   elseif check_back_space() then
-    return t '<Tab>'
+    return t('<Tab>')
   else
     return vim.fn['compe#complete']()
   end
@@ -75,11 +75,11 @@ end
 
 _G.s_tab_complete = function()
   if vim.fn.pumvisible() == 1 then
-    return t '<C-p>'
+    return t('<C-p>')
   elseif luasnip and luasnip.jumpable(-1) then
-    return t '<Plug>luasnip-jump-prev'
+    return t('<Plug>luasnip-jump-prev')
   else
-    return t '<S-Tab>'
+    return t('<S-Tab>')
   end
 end
 

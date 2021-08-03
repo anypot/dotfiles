@@ -1,4 +1,4 @@
-require('telescope').setup {
+require('telescope').setup({
   defaults = {
     vimgrep_arguments = {
       'rg',
@@ -11,8 +11,8 @@ require('telescope').setup {
       '--hidden',
     },
     file_ignore_patterns = { '.git' },
-    prompt_prefix = "🔍 ",
-    selection_caret = "➤ ",
+    prompt_prefix = '🔍 ',
+    selection_caret = '➤ ',
     color_devicons = true,
-  }
-}
+  },
+})
