@@ -22,6 +22,14 @@ vim.wo.relativenumber = true
 -- Enable mouse mode
 -- vim.o.mouse = 'a'
 
+-- Tab settings
+vim.o.tabstop           = 4         -- Tab indentation levels every two columns
+vim.o.softtabstop       = 4         -- Tab indentation when mixing tabs & spaces
+vim.o.shiftwidth        = 4         -- Indent/outdent by two columns
+vim.o.shiftround        = true      -- Always indent/outdent to nearest tabstop
+vim.o.expandtab         = true      -- Convert all tabs that are typed into spaces
+vim.o.smarttab          = true      -- Use shiftwidths at left margin, tabstops everywhere else
+
 -- Enable break indent
 vim.o.breakindent = true
 
