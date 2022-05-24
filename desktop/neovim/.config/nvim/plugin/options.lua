@@ -1,7 +1,5 @@
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.g.onedark_style = 'darker'
-vim.cmd([[colorscheme onedark]])
 -- vim.g.tokyonight_style = "night" -- default = storm
 -- vim.g.tokyonight_sidebars = { "packer" }
 -- vim.cmd[[colorscheme tokyonight]]

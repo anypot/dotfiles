@@ -36,23 +36,13 @@ require('packer').startup(function()
   use('tpope/vim-commentary') -- "gc" to comment visual regions/lines
   use('tpope/vim-surround') -- Mappings to easily operate on "s"urroundings (like parentheses, brackets, quotes, XML tags,...)
   use('tpope/vim-repeat') -- "." can be used to repeat a plugin map!
-  use({
-    'folke/which-key.nvim',
-    config = function()
-      require('which-key').setup()
-    end,
-  }) -- Shows suggestions to complete a key binding
+  use('folke/which-key.nvim') -- Shows suggestions to complete a key binding
   use('windwp/nvim-autopairs') -- Autopairs
   use('lukas-reineke/indent-blankline.nvim') -- Add indentation guides even on blank lines
   --use 'folke/tokyonight.nvim' -- Color theme
   use('navarasu/onedark.nvim') -- Color theme
   use('folke/zen-mode.nvim') -- Distraction-free coding
-  use({
-    'folke/twilight.nvim',
-    config = function()
-      require('twilight').setup()
-    end,
-  }) -- Dims inactive portions of the code
+  use('folke/twilight.nvim') -- Dims inactive portions of the code
   use({ 'hoob3rt/lualine.nvim', requires = 'kyazdani42/nvim-web-devicons' }) -- Statusline
   use({ 'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons' }) -- Show and sort buffers as tabs
   use('andweeb/presence.nvim') -- What's the point in using vim if you're not telling the world?
