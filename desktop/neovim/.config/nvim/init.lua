@@ -21,7 +21,7 @@ vim.api.nvim_exec(
 local use = require('packer').use
 require('packer').startup(function()
   use('wbthomason/packer.nvim') -- The package manager itself
-  use({ 'nvim-treesitter/nvim-treesitter', branch = '0.5-compat', run = ':TSUpdate' }) -- Interface for the tree-sitter library in Neovim
+  use({ 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }) -- Interface for the tree-sitter library in Neovim
   use('nvim-treesitter/nvim-treesitter-textobjects') -- Additional textobjects for treesitter
   use('neovim/nvim-lspconfig') -- Manages the Nvim LSP client
   use('ray-x/lsp_signature.nvim') -- Made for completion plugins that do not support signature help

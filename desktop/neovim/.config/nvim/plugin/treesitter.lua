@@ -1,5 +1,5 @@
 require('nvim-treesitter.configs').setup({
-  ensure_installed = 'maintained', -- parsers with maintainers
+  ensure_installed = { "bash", "dockerfile", "go", "lua", "python", "rust", "vim", "yaml" }, -- A list of parser names, or "all"
   highlight = { enable = true },
   indent = { enable = true },
   incremental_selection = {
