@@ -36,7 +36,7 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 }
 
 -- Enable the following language servers
-local servers = { 'gopls', 'rust_analyzer' }
+local servers = { 'bashls', 'pyright', 'gopls', 'rust_analyzer' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup({
     on_attach = on_attach,

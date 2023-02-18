@@ -39,8 +39,7 @@ require('packer').startup(function()
   use('folke/which-key.nvim') -- Shows suggestions to complete a key binding
   use('windwp/nvim-autopairs') -- Autopairs
   use('lukas-reineke/indent-blankline.nvim') -- Add indentation guides even on blank lines
-  --use 'folke/tokyonight.nvim' -- Color theme
-  use('navarasu/onedark.nvim') -- Color theme
+  use('rebelot/kanagawa.nvim') -- Color theme
   use('folke/zen-mode.nvim') -- Distraction-free coding
   use('folke/twilight.nvim') -- Dims inactive portions of the code
   use({ 'hoob3rt/lualine.nvim', requires = 'kyazdani42/nvim-web-devicons' }) -- Statusline
