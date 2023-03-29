@@ -26,12 +26,10 @@ def msg_box(text):
     myBox.show(text, 0, 'ERROR!')
 
 
-def get_crypto_prices(*args):
+def get_coingecko_prices(col, line):
     desktop = XSCRIPTCONTEXT.getDesktop()
     model = desktop.getCurrentComponent()
     active_sheet = model.CurrentController.ActiveSheet
-    col = 'E'
-    line = 2
     base_url = 'https://api.coingecko.com/api/v3'
     api_endpoint = 'simple/price'
     ids_tuples = active_sheet.getCellRangeByName('A16:A23').getDataArray()
@@ -50,6 +48,48 @@ def get_crypto_prices(*args):
             )
             line += 1
 
+    return
+
+
+def get_cryptowatch_prices(col, line):
+    desktop = XSCRIPTCONTEXT.getDesktop()
+    model = desktop.getCurrentComponent()
+    active_sheet = model.CurrentController.ActiveSheet
+    usd_eur_rate_cell = 'W14'
+    base_url = 'https://api.cryptowat.ch'
+    ids_tuples = active_sheet.getCellRangeByName('V15:V23').getDataArray()
+    ids = list(zip(*ids_tuples))[0]
+    vs_currencies_tuples = active_sheet.getCellRangeByName('W15:W23').getDataArray()
+    vs_currencies = list(zip(*vs_currencies_tuples))[0]
+    exchanges_tuples = active_sheet.getCellRangeByName('X15:X23').getDataArray()
+    exchanges = list(zip(*exchanges_tuples))[0]
+
+    for i, id in enumerate(ids):
+        api_endpoint = f'markets/{exchanges[i]}/{id}{vs_currencies[i]}/price'
+        url = f'{base_url}/{api_endpoint}'
+        response_data = call_api('GET', url, headers=None, payload=None)
+        if response_data is not None:
+            if id == 'usd':
+                active_sheet[usd_eur_rate_cell].Value = response_data['result']['price']
+                continue
+            if vs_currencies[i] == 'usd':
+                active_sheet[f'{col}{line}'].Value = (
+                    response_data['result']['price'] * active_sheet[usd_eur_rate_cell].Value
+                )
+            else:
+                active_sheet[f'{col}{line}'].Value = (
+                    response_data['result']['price']
+                )
+        line += 1
+
+    return
+
+
+def get_crypto_prices(*args):
+    col = 'E'
+    line = 2
+    # get_coingecko_prices(col, line)
+    get_cryptowatch_prices(col, line)
     return
 
 
