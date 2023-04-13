@@ -88,8 +88,8 @@ def get_cryptowatch_prices(col, line):
 def get_crypto_prices(*args):
     col = 'E'
     line = 2
-    # get_coingecko_prices(col, line)
-    get_cryptowatch_prices(col, line)
+    get_coingecko_prices(col, line)
+    # get_cryptowatch_prices(col, line)
     return
 
 
