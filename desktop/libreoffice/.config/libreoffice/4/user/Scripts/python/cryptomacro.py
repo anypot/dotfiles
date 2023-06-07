@@ -157,7 +157,7 @@ def show_amounts(*args):
             'data': None,
             'path': "['balance']['amount']",
             'decimal': pow(10, 6),
-            'formula': '=B28+B29+B30+'
+            'formula': '=B28+B29+'
         },
         'B28': {
             'method': 'GET',
@@ -165,6 +165,14 @@ def show_amounts(*args):
             'headers': None,
             'data': None,
             'path': "['delegation_responses'][0]['balance']['amount']",
+            'decimal': pow(10, 6)
+        },
+        'B29': {
+            'method': 'GET',
+            'url': active_sheet['C29'].String,
+            'headers': None,
+            'data': None,
+            'path': "['delegation_responses'][1]['balance']['amount']",
             'decimal': pow(10, 6)
         },
         'B8': {
