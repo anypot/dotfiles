@@ -105,11 +105,11 @@ def show_amounts(*args):
             'data': None,
             'path': "['result']['totalBalance'][0]['amount']",
             'decimal': pow(10,8),
-            'formula': '=B26+B27+'
+            'formula': '=B26+B27+',
         },
-        'B27': {
+        'B28': {
             'method': 'GET',
-            'url': active_sheet['C27'].String,
+            'url': active_sheet['C28'].String,
             'headers': None,
             'data': None,
             'path': "['result']['totalBalance'][0]['amount']",
@@ -121,7 +121,7 @@ def show_amounts(*args):
             'headers': None,
             'data': None,
             'path': "['data']['total']",
-            'decimal': 1
+            'decimal': 1,
         },
         'B4': {
             'method': 'GET',
@@ -129,7 +129,7 @@ def show_amounts(*args):
             'headers': None,
             'data': None,
             'path': "['chain_stats']['funded_txo_sum']",
-            'decimal': pow(10, 8)
+            'decimal': pow(10, 8),
         },
         'B5': {
             'method': 'GET',
@@ -137,7 +137,16 @@ def show_amounts(*args):
             'headers': None,
             'data': None,
             'path': "['result']",
-            'decimal': pow(10, 18)
+            'decimal': pow(10, 18),
+            'formula': '=B26+',
+        },
+        'B26': {
+            'method': 'GET',
+            'url': active_sheet['C26'].String,
+            'headers': None,
+            'data': None,
+            'path': "['result']",
+            'decimal': pow(10, 18),
         },
         'B6': {
             'method': 'POST',
@@ -148,7 +157,7 @@ def show_amounts(*args):
             },
             'data': { 'key': active_sheet['O20'].String },
             'path': "['data']['account']['balance']",
-            'decimal': 1
+            'decimal': 1,
         },
         'B7': {
             'method': 'GET',
@@ -157,23 +166,23 @@ def show_amounts(*args):
             'data': None,
             'path': "['balance']['amount']",
             'decimal': pow(10, 6),
-            'formula': '=B28+B29+'
-        },
-        'B28': {
-            'method': 'GET',
-            'url': active_sheet['C28'].String,
-            'headers': None,
-            'data': None,
-            'path': "['delegation_responses'][0]['balance']['amount']",
-            'decimal': pow(10, 6)
+            'formula': '=B29+B30+',
         },
         'B29': {
             'method': 'GET',
             'url': active_sheet['C29'].String,
             'headers': None,
             'data': None,
+            'path': "['delegation_responses'][0]['balance']['amount']",
+            'decimal': pow(10, 6),
+        },
+        'B30': {
+            'method': 'GET',
+            'url': active_sheet['C30'].String,
+            'headers': None,
+            'data': None,
             'path': "['delegation_responses'][1]['balance']['amount']",
-            'decimal': pow(10, 6)
+            'decimal': pow(10, 6),
         },
         'B8': {
             'method': 'GET',
@@ -181,7 +190,7 @@ def show_amounts(*args):
             'headers': None,
             'data': None,
             'path': "['result']",
-            'decimal': pow(10, 18)
+            'decimal': pow(10, 18),
         },
         'B9': {
             'method': 'GET',
@@ -189,7 +198,7 @@ def show_amounts(*args):
             'headers': None,
             'data': None,
             'path': "['result']",
-            'decimal': pow(10, 18)
+            'decimal': pow(10, 18),
         }
     }
 
