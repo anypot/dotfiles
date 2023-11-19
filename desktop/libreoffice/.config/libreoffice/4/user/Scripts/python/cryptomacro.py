@@ -51,36 +51,27 @@ def get_coingecko_prices(col, line):
     return
 
 
-def get_cryptowatch_prices(col, line):
+def get_kucoin_prices(col, line):
     desktop = XSCRIPTCONTEXT.getDesktop()
     model = desktop.getCurrentComponent()
     active_sheet = model.CurrentController.ActiveSheet
-    usd_eur_rate_cell = 'W14'
-    base_url = 'https://api.cryptowat.ch'
-    ids_tuples = active_sheet.getCellRangeByName('V15:V23').getDataArray()
-    ids = list(zip(*ids_tuples))[0]
-    vs_currencies_tuples = active_sheet.getCellRangeByName('W15:W23').getDataArray()
-    vs_currencies = list(zip(*vs_currencies_tuples))[0]
-    exchanges_tuples = active_sheet.getCellRangeByName('X15:X23').getDataArray()
-    exchanges = list(zip(*exchanges_tuples))[0]
+    base_url = 'https://api.kucoin.com/api/v1'
+    api_endpoint = 'prices'
+    currencies_tuples = active_sheet.getCellRangeByName('A2:A9').getDataArray()
+    currencies = list(zip(*currencies_tuples))[0]
+    base = 'eur'
+    url = (f'{base_url}/{api_endpoint}'
+           f'?currencies={",".join(currencies)}'
+           f'&base={base}'
+    )
 
-    for i, id in enumerate(ids):
-        api_endpoint = f'markets/{exchanges[i]}/{id}{vs_currencies[i]}/price'
-        url = f'{base_url}/{api_endpoint}'
-        response_data = call_api('GET', url, headers=None, payload=None)
-        if response_data is not None:
-            if id == 'usd':
-                active_sheet[usd_eur_rate_cell].Value = response_data['result']['price']
-                continue
-            if vs_currencies[i] == 'usd':
-                active_sheet[f'{col}{line}'].Value = (
-                    response_data['result']['price'] * active_sheet[usd_eur_rate_cell].Value
-                )
-            else:
-                active_sheet[f'{col}{line}'].Value = (
-                    response_data['result']['price']
-                )
-        line += 1
+    response_data = call_api('GET', url, headers=None, payload=None)
+    if response_data is not None:
+        for c in currencies:
+            active_sheet[f'{col}{line}'].Value = (
+                response_data['data'][c]
+            )
+            line += 1
 
     return
 
@@ -88,8 +79,8 @@ def get_cryptowatch_prices(col, line):
 def get_crypto_prices(*args):
     col = 'E'
     line = 2
-    get_coingecko_prices(col, line)
-    # get_cryptowatch_prices(col, line)
+    # get_coingecko_prices(col, line)
+    get_kucoin_prices(col, line)
     return
 
 
