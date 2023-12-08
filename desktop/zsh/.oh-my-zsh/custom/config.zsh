@@ -13,8 +13,25 @@ export MOVPLAY="mpv"
 export TERMINAL="alacritty"
 # For ranger :terminal command
 export TERMCMD="alacritty"
-# For fzf
-export FZF_DEFAULT_COMMAND="fd --type file --hidden --no-ignore"
+# For fzf (--unrestricted = --hidden --no-ignore)
+export FZF_DEFAULT_COMMAND="fd --unrestricted --follow --exclude .git"
+export FZF_DEFAULT_OPTS="
+  --preview-window hidden
+  --bind 'ctrl-space:toggle-preview'
+  --color header:italic
+  --header 'Press CTRL-SPACE to toggle preview'"
+#   --bind 'ctrl-y:execute-silent(echo -n {} | wl-copy)+abort'
+#   --header 'Press CTRL-Y to copy command into clipboard'"
+export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
+export FZF_CTRL_T_OPTS="
+  --select-1
+  --exit-0
+  --preview '(bat {} || eza --tree --level=2 {}) 2> /dev/null | head -200'"
+export FZF_ALT_C_COMMAND="fd --type directory --unrestricted --follow --exclude .git"
+export FZF_ALT_C_OPTS="
+  --select-1
+  --exit-0
+  --preview 'eza --tree --level=2 {}'"
 
 for ext in md PKGBUILD py tex txt;                   do alias -s $ext=$EDITOR; done
 for ext in com html net no org php;                  do alias -s $ext=$BROWSER; done
