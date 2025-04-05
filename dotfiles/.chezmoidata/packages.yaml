@@ -1,0 +1,41 @@
+common:
+  packages:
+    delete: []
+    install:
+      - alacritty
+      - awesome-terminal-fonts
+      - bat
+      - chezmoi
+      - ctags
+      - eza
+      - fd
+      - fzf
+      - git
+      - htop
+      - jq
+      - just
+      - lazygit
+      - mpv
+      - neovim
+      - ranger
+      - ripgrep
+      - streamlink
+      - stylua
+      - sxiv
+      - thefuck
+      - tmux
+      - tmuxp
+      - unzip
+      - yt-dlp
+      - zsh
+      - zsh-autosuggestions
+      - zsh-completions
+      - zsh-syntax-highlighting
+archbtw:
+  packages:
+    delete: []
+    install: []
+exile:
+  packages:
+    delete: []
+    install: []

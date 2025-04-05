@@ -1,0 +1,18 @@
+{{ template "utils.sh" . }}
+
+header "Installing Ansible with uv"
+
+UV_PATH="$(_uvBinaryPath_)" || {
+    error "uv is not installed"
+    _safeExit_ 1
+}
+
+if [[ -n ${UV_PATH} ]]; then
+    ${UV_PATH} tool install ansible-core
+fi
+
+ansible-galaxy collection install community.general
+
+success "Ansible packages and collections installed"
+
+_safeExit_

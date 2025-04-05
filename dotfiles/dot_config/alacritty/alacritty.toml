@@ -1,0 +1,10 @@
+[env]
+TERM = "xterm-256color"
+
+[font.normal]
+family = "MesloLGS NF"
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "Return"
+mods = "Control|Shift"

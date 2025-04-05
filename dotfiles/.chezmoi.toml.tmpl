@@ -1,0 +1,76 @@
+{{/* Tags feature */}}
+{{- $ephemeral := false -}}{{/* true if this machine is ephemeral, e.g. a cloud or VM instance */}}
+{{- $headless := false -}}{{/* true if this machine does not have a screen and keyboard */}}
+{{- $work := false -}}{{/* true if this machine is used for business service */}}
+{{- $personal := false -}}{{/* true if this machine should have personal secrets */}}
+{{- "" -}}
+
+{{- $osID := .chezmoi.os -}}
+{{- if (and (eq .chezmoi.os "linux") (hasKey .chezmoi.osRelease "id")) -}}
+{{-   $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
+{{- end -}}
+
+{{- $hostname := .chezmoi.hostname -}}
+{{- if eq .chezmoi.os "darwin" -}}
+{{-   $hostname := output "scutil" "--get" "ComputerName" | trim -}}
+{{- end -}}
+
+{{- if eq .chezmoi.os "windows" -}}
+{{-   $ephemeral = true -}}
+{{- end -}}
+
+{{- if not $ephemeral -}}
+{{-   if eq $hostname "archbtw" -}}
+{{-     $personal = true -}}
+{{-   else if eq $hostname "exile" -}}
+{{-     $personal = true -}}
+{{-   else if eq $hostname "raspberrypi4" -}}
+{{-     $headless = true -}}
+{{-     $personal = true -}}
+{{-   else if stdinIsATTY -}}
+{{-     $headless = promptBoolOnce . "headless" "headless" -}}
+{{-     $ephemeral = promptBoolOnce . "ephemeral" "ephemeral" -}}
+{{-   else -}}
+{{-     $ephemeral = true -}}
+{{-     $headless = true -}}
+{{-   end -}}
+{{- end -}}
+
+{{- $email := "anypot@posteo.net" -}}
+{{- if $work -}}
+{{-   $email := promptStringOnce . "email" "Business email address" -}}
+{{- end -}}
+
+[data]
+  email         = {{ $email | quote }}
+  ephemeral     = {{ $ephemeral }}
+  headless      = {{ $headless }}
+  hostname      = {{ $hostname | quote }}
+  github_user   = "anypot"
+  osid          = {{ $osID | quote }}
+  personal      = {{ $personal }}
+  work          = {{ $work }}
+  xdgCacheHome  = "{{ .chezmoi.homeDir }}/.cache"
+  xdgConfigHome = "{{ .chezmoi.homeDir }}/.config"
+  xdgDataHome   = "{{ .chezmoi.homeDir }}/.local/share"
+  xdgStateHome  = "{{ .chezmoi.homeDir }}/.local/state"
+
+[diff]
+  command = "nvim"
+  args = [
+      "-d",
+      {{ printf "%q" "{{ .Destination }}" }},
+      {{ printf "%q" "{{ .Target }}" }},
+  ]
+
+[merge]
+  command = "nvim"
+  args = [
+      "-d",
+      {{ printf "%q" "{{ .Destination }}" }},
+      {{ printf "%q" "{{ .Source }}" }},
+      {{ printf "%q" "{{ .Target }}" }},
+      "-c",
+      "'$wincmd w'",
+      "'wincmd J'",
+  ]

@@ -1,0 +1,11 @@
+{{ template "utils.sh" . }}
+
+header "Installing system packages with Ansible"
+
+# packages.yaml hash: {{ include ".chezmoidata/packages.yaml" | sha256sum }}
+info "packages.yaml content has changed"
+sourceDir="{{ .chezmoi.sourceDir }}"
+info "ansible-playbook --extra-vars @${sourceDir}/.chezmoidata/packages.yaml ${sourceDir}/manage-packages.yaml"
+ansible-playbook --extra-vars @${sourceDir}/.chezmoidata/packages.yaml ${sourceDir}/manage-packages.yaml
+
+_safeExit_

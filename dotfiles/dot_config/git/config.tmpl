@@ -1,0 +1,22 @@
+[user]
+        name = Anthony '{{ .github_user }}' Poinsot
+        email = {{ .email }}
+        signingkey = 7DBB4C0A9D8F246B
+[gpg]
+        program = gpg2
+[commit]
+        gpgsign = true
+[credential]
+        helper = cache
+[merge]
+	tool = nvimdiff
+[mergetool]
+	prompt = true
+[mergetool "nvimdiff"]
+	cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+[difftool]
+	prompt = false
+[diff]
+	tool = nvimdiff
+[difftool "nvimdiff"]
+	cmd = nvim -d $LOCAL $REMOTE

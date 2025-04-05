@@ -1,0 +1,54 @@
+{{ template "utils.sh" . }}
+
+{{ if eq .chezmoi.os "linux" }}
+
+install=false
+
+# Declare a regular array for the package names
+declare -a packages=(
+    "curl"
+    "unzip"
+    "wget"
+)
+
+to_install=()
+
+# Loop through the commands to check if they're installed
+for cmd in "${packages[@]}"; do
+    if ! command -v "${cmd}" &>/dev/null; then
+        install=true
+        to_install+=("${cmd}")
+    fi
+done
+
+# Install missing packages
+if ${install}; then
+    {{ if eq .chezmoi.osRelease.id "arch" -}}
+    updatecmd="pacman -Sy"
+    installcmd="pacman -S"
+    {{ else }}
+    updatecmd="apt update"
+    installcmd="apt install -y"
+    {{ end }}
+
+    header "Updating package list"
+    sudo ${updatecmd}
+
+    for pkg in "${to_install[@]}"; do
+        header "Installing ${pkg}"
+        sudo ${installcmd} "${pkg}"
+    done
+fi
+
+{{ end }}
+
+{{ if eq .chezmoi.os "darwin" }}
+
+if [[ ! $(command -v brew) ]]; then
+    header "Installing Homebrew"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+{{ end }}
+
+_safeExit_

@@ -1,0 +1,16 @@
+---
+- name: "Ansible playbook to manage system packages"
+  hosts: 127.0.0.1
+  connection: local
+  gather_facts: true
+  tasks:
+    - name: "Delete system packages"
+      become: true
+      ansible.builtin.package:
+        name: "{{ common.packages.delete + vars[ansible_hostname].packages.delete | default([]) }}"
+        state: absent
+    - name: "Install system packages"
+      become: true
+      ansible.builtin.package:
+        name: "{{ common.packages.install + vars[ansible_hostname].packages.install | default([]) }}"
+        state: present
