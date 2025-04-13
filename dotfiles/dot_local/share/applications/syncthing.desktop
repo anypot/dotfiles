@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Syncthing
+GenericName=File synchronization UI
+Comment=Starts Syncthing and opens Web UI in the default browser.
+Exec=syncthing
+Icon=syncthing
+Terminal=false
+Type=Application
+Keywords=synchronization;interface;
+Categories=Network;FileTransfer;P2P

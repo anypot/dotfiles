@@ -1,0 +1,125 @@
+@define-color background-darker rgba(30, 31, 41, 230);
+@define-color background #282a36;
+@define-color selection #44475a;
+@define-color foreground #f8f8f2;
+@define-color comment #6272a4;
+@define-color cyan #8be9fd;
+@define-color green #50fa7b;
+@define-color orange #ffb86c;
+@define-color pink #ff79c6;
+@define-color purple #bd93f9;
+@define-color red #ff5555;
+@define-color yellow #f1fa8c;
+
+@keyframes blink_critical {
+  to {
+    background-color: @red;
+    color: @foreground;
+  }
+}
+
+window > box {
+  background-color: @transparent;
+}
+
+tooltip {
+  background-color: @background;
+}
+
+tooltip label{
+  color: @foreground;
+}
+
+#tags {
+  background-color: @background-darker;
+}
+
+#tags button {
+  color: @comment;
+}
+
+#tags button.occupied {
+  color: @foreground;
+}
+
+#tags button.urgent {
+  color: @red;
+}
+
+#tags button.focused {
+  color: @purple;
+  border: 2px solid @purple;
+}
+
+#tags button:hover {
+  background-color: @selection;
+}
+
+#tags button.focused:hover {
+  background-color: @selection;
+}
+
+#mode, #clock, #disk, #memory, #temperature, #cpu, #temperature, #backlight, #network, #battery, #window, #custom-weather, #mpd, #wireplumber, #custom-pipewire, #custom-wallpaper, #custom-pacman, #custom-clipboard, #custom-power {
+  background-color: @background-darker;
+}
+
+#window {
+  background-color: @background-darker;
+  color: @foreground;
+}
+
+#custom-wallpaper {
+  color: @green;
+}
+
+#wireplumber {
+  color: @green;
+}
+
+#custom-clipboard {
+  color: @foreground;
+}
+
+#cpu {
+  color: @cyan;
+}
+
+#memory {
+  color: @cyan;
+}
+
+#custom-pacman {
+  color: @green;
+}
+
+#custom-weather {
+  color: @yellow;
+}
+
+#network {
+  color: @green;
+}
+
+#clock {
+  color: @pink;
+}
+
+#custom-power {
+  color: @red
+}
+
+#mpd {
+  color: @green;
+}
+
+#temperature {
+  color: @green;
+}
+
+#custom-pipewire {
+  color: @green;
+}
+
+#disk {
+  color: @green;
+}

@@ -41,7 +41,12 @@
 {{-   $email := promptStringOnce . "email" "Business email address" -}}
 {{- end -}}
 
+{{- $defaultColorScheme := "tokyonight" -}}
+{{- $colorSchemes := list "catppuccin" "dracula" "gruvbox" "kanagawa" "onedark" "rose-pine" "solarized" "tokyonight" -}}
+{{- $colorScheme := promptChoice "Color scheme" $colorSchemes $defaultColorScheme -}}
+
 [data]
+  color_scheme   = {{ $colorScheme | quote }}
   email         = {{ $email | quote }}
   ephemeral     = {{ $ephemeral }}
   headless      = {{ $headless }}

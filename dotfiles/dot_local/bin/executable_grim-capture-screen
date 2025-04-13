@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+location="${HOME}/Pictures/screenshots/$(date +'%s_grim.png')"
+grim -g "$(slurp -d -o)" "${location}"
+wl-copy <"${location}"
+notify-send "Screenshot taken"

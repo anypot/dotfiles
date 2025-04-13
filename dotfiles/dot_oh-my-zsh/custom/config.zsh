@@ -7,11 +7,11 @@ export EDITOR="nvim"
 export PAGER="less"
 export BROWSER="firefox"
 export READER="zathura"
-export PICVIEW="sxiv"
+export PICVIEW="imv"
 export SNDPLAY="mpv"
 export MOVPLAY="mpv"
 export TERMINAL="alacritty"
-# For ranger :terminal command
+# For yazi: terminal command
 export TERMCMD="alacritty"
 # For fzf (--unrestricted = --hidden --no-ignore)
 export FZF_DEFAULT_COMMAND="fd --unrestricted --follow --exclude .git"

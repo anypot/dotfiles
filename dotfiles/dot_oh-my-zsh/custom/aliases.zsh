@@ -1,7 +1,6 @@
-# Filesystem navigation
+# Filesystems
 cdl () { builtin cd "$1"; ls -a }
 mkcd () { mkdir -pv "$1" && cd "$1" }
-dot() { builtin cd ~/dotfiles; nvim }
 alias ls='eza'                                                         # ls
 alias l='eza -lbF --git'                                               # list, size, type, git
 alias ll='eza -lbGF --git'                                             # long list
@@ -11,7 +10,7 @@ alias lx='eza -lbhHigUmuSa@ --time-style=long-iso --git --color-scale' # all + e
 alias lS='eza -1'                                                      # one column, just names
 alias tree='eza --tree --level=2'                                        # tree
 alias df='df -h'
-alias du='du -ch'
+alias dui='ncdu -e --color=dark'
 alias biggest='du -x | sort -nr | head -10'
 alias mountt='mount | column -t'
 
@@ -29,7 +28,9 @@ alias -s {yml,yaml,sh,zsh}=nvim
 alias -g F='| fzf'
 
 # System
-alias top='htop'
+alias dot='chezmoi edit'
+alias ps='procs'
+alias top='btm --basic'
 alias path='echo -e ${PATH//:/\\n}'
 alias shutdown='sudo shutdown -h now'
 alias reboot='sudo reboot'

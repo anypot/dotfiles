@@ -1,0 +1,131 @@
+@define-color base            #191724;
+@define-color surface         #1f1d2e;
+@define-color overlay         #26233a;
+
+@define-color muted           #6e6a86;
+@define-color subtle          #908caa;
+@define-color text            #e0def4;
+
+@define-color love            #eb6f92;
+@define-color gold            #f6c177;
+@define-color rose            #ebbcba;
+@define-color pine            #31748f;
+@define-color foam            #9ccfd8;
+@define-color iris            #c4a7e7;
+
+@define-color highlightLow    #21202e;
+@define-color highlightMed    #403d52;
+@define-color highlightHigh   #524f67;
+
+@keyframes blink_critical {
+  to {
+    background-color: @love;
+    color: @text;
+  }
+}
+
+window > box {
+  background-color: @transparent;
+}
+
+tooltip {
+  background-color: @surface;
+}
+
+tooltip label{
+  color: @text;
+}
+
+#tags {
+  background-color: @base;
+}
+
+#tags button {
+  color: @muted;
+}
+
+#tags button.occupied {
+  color: @text;
+}
+
+#tags button.urgent {
+  color: @love;
+}
+
+#tags button.focused {
+  color: @iris;
+  border: 2px solid @iris;
+}
+
+#tags button:hover {
+  background-color: @highlightMid;
+}
+
+#tags button.focused:hover {
+  background-color: @highlightMid;
+}
+
+#mode, #clock, #disk, #memory, #temperature, #cpu, #temperature, #backlight, #network, #battery, #window, #custom-weather, #mpd, #wireplumber, #custom-pipewire, #custom-wallpaper, #custom-pacman, #custom-clipboard, #custom-power {
+  background-color: @base;
+}
+
+#window {
+  background-color: @base;
+  color: @text;
+}
+
+#custom-wallpaper {
+  color: @pine;
+}
+
+#wireplumber {
+  color: @pine;
+}
+
+#custom-clipboard {
+  color: @text;
+}
+
+#cpu {
+  color: @foam;
+}
+
+#memory {
+  color: @foam;
+}
+
+#custom-pacman {
+  color: @pine;
+}
+
+#custom-weather {
+  color: @gold;
+}
+
+#network {
+  color: @pine;
+}
+
+#clock {
+  color: @rose;
+}
+
+#custom-power {
+  color: @love;
+}
+
+#mpd {
+  color: @pine;
+}
+
+#temperature {
+  color: @pine;
+}
+
+#custom-pipewire {
+  color: @pine;
+}
+
+#disk {
+  color: @pine;
+}

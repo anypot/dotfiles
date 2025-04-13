@@ -1,0 +1,94 @@
+{
+  "layer": "top",
+  "height": 30,
+  "width": 2560,
+  "reload_style_on_change": true,
+  "modules-left": ["river/tags"],
+  "modules-center": ["river/window"],
+  "modules-right": [
+    "custom/clipboard",
+    "cpu",
+    "memory",
+    "network",
+    "custom/weather",
+    "clock",
+    "custom/power"
+  ],
+  "river/tags": {
+    "num-tags": 9,
+    "tag-labels":["TERM", "WEB", "MAIL", "OFFICE", "CHAT", "MEDIA", "VM", "DL", "PWD"],
+    "disable-click": false
+  },
+  "river/window": {
+    "format": "{}",
+    "max-length": 50,
+    "tooltip" : false
+  },
+  "custom/clipboard": {
+    "exec": "~/.local/bin/waybar-cliphist",
+    "return-type": "json",
+    "interval": "once",
+    "format": "{icon}",
+    "format-icons": {
+      "empty": "󱘡",
+      "full": "󰨸",
+    },
+    "on-click": "cliphist list | fuzzel --dmenu --with-nth 2 | cliphist decode | wl-copy",
+    "on-click-right": "cliphist wipe; pkill -RTMIN+9 waybar; notify-send -a center_notify 'Clipboard' 'Database deleted'",
+    "exec-on-event": true,
+    "signal": 9,
+  },
+  "cpu": {
+    "interval": 20,
+    "format": "   {usage}%",
+    "tooltip": true
+  },
+  "memory": {
+    "interval": 20,
+    "format": "󰍛  {used:0.2f}GB",
+    "tooltip": true,
+    "states": {
+      "warning": 85,
+    },
+  },
+  "custom/weather": {
+    "exec": "${HOME}/.local/bin/waybar-wttr Paris+France",
+    "return-type": "json",
+    "format": "{}",
+    "tooltip": true,
+    "interval": 3600
+  },
+  "network": {
+    // "interface": "wlp5*", // (Optional) To force the use of this interface
+    "format-wifi": "   ({signalStrength}%)",
+    "format-ethernet": "{ipaddr}/{cidr} ",
+    "tooltip-format-wifi": "   {essid} ",
+    "tooltip-format": "{ifname} via {gwaddr} ",
+    "format-linked": "{ifname} (No IP) ",
+    "format-disconnected": "Disconnected ⚠",
+    "on-click": "nm-connection-editor",
+    // "format-alt": "{ifname}: {ipaddr}/{cidr}"
+  },
+  "clock": {
+    //"format": "   {:%A %d %B %Y     %H:%M}",
+    //"format": "{:  %H:%M}",
+    "format": "{:%A %d %B %Y  %H:%M}",
+    "tooltip-format": "{:%D}\n{calendar}",
+    /*"on-click": "gnome-calendar"*/
+  },
+  "custom/power": {
+    "format": "  ",
+    "on-click": "bash ~/.local/bin/waybar-leave",
+    "tooltip": false
+  },
+  /*"temperature": {
+   *  "hwmon-path": "/sys/class/hwmon/hwmon3/temp1_input",
+   *  "format": " {temperatureC}°C",
+   *  "tooltip": false
+   *},
+   *"disk": {
+   *  "interval": 3600,
+   *  "format": "󰋊  {used}"
+   * },
+   */ 
+}
