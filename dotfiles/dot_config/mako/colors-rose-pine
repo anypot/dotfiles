@@ -1,0 +1,11 @@
+background-color=#191724
+border-color=#9ccfd8
+
+[urgency=low]
+border-color=#9ccfd8
+
+[urgency=normal]
+border-color=#ebbcba
+
+[urgency=high]
+border-color=#eb6f92

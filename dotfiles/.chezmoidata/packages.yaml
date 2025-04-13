@@ -5,32 +5,51 @@ common:
       - alacritty
       - awesome-terminal-fonts
       - bat
+      - bottom
       - chezmoi
+      - cliphist
       - ctags
+      - curl
       - eza
       - fd
+      - fuzzel
       - fzf
       - git
+      - grim
       - htop
-      - jq
       - just
       - lazygit
+      - less
+      - mako
       - mpv
+      - ncdu
       - neovim
+      - nm-connection-editor
+      - ntfs-3g
+      - procs
       - ranger
       - ripgrep
+      - river
+      - slurp
       - streamlink
       - stylua
+      - swaybg
       - sxiv
+      - syncthing
+      - tar
       - thefuck
       - tmux
       - tmuxp
       - unzip
+      - waybar
+      - wl-clipboard
+      - yazi
       - yt-dlp
       - zsh
       - zsh-autosuggestions
       - zsh-completions
       - zsh-syntax-highlighting
+      # difftastic, git-delta, zoxide, navi or alternative?, bandwhich or alternative???
 archbtw:
   packages:
     delete: []

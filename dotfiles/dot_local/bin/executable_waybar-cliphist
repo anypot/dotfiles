@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+LINES=$(cliphist list | wc -l)
+[[ $LINES -eq 0 ]] && ICON='empty' || ICON='full'
+
+jq --unbuffered --compact-output \
+  --arg title 'clipboard' \
+  --arg icon "$ICON" \
+  --arg items "$LINES item(s)" \
+  -n '{text: $title, alt: $icon, tooltip: $items}'

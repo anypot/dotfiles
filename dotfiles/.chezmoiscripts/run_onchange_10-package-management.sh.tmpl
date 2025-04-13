@@ -6,6 +6,8 @@ header "Installing system packages with Ansible"
 info "packages.yaml content has changed"
 sourceDir="{{ .chezmoi.sourceDir }}"
 info "ansible-playbook --extra-vars @${sourceDir}/.chezmoidata/packages.yaml ${sourceDir}/manage-packages.yaml"
+ANSIBLE_LOCALHOST_WARNING=False \
+ANSIBLE_INVENTORY_UNPARSED_WARNING=False \
 ansible-playbook --extra-vars @${sourceDir}/.chezmoidata/packages.yaml ${sourceDir}/manage-packages.yaml
 
 _safeExit_
