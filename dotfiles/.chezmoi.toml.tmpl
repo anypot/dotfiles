@@ -61,12 +61,8 @@
   xdgStateHome  = "{{ .chezmoi.homeDir }}/.local/state"
 
 [diff]
-  command = "nvim"
-  args = [
-      "-d",
-      {{ printf "%q" "{{ .Destination }}" }},
-      {{ printf "%q" "{{ .Target }}" }},
-  ]
+  pager = "delta"
+  exclude = ["scripts"]
 
 [merge]
   command = "nvim"

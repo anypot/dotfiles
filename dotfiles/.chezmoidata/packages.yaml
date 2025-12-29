@@ -16,6 +16,7 @@ common:
       - fuzzel
       - fzf
       - git
+      - git-delta
       - grim
       - htop
       - imv
@@ -50,7 +51,7 @@ common:
       - zsh-autosuggestions
       - zsh-completions
       - zsh-syntax-highlighting
-      # difftastic, git-delta, zoxide, navi or alternative?, bandwhich or alternative???
+      # difftastic, zoxide, navi or alternative?, bandwhich or alternative???
 archbtw:
   packages:
     delete: []

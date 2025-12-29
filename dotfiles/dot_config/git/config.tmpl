@@ -1,22 +1,30 @@
+[include]
+    path = themes.gitconfig
+
 [user]
-        name = Anthony '{{ .github_user }}' Poinsot
-        email = {{ .email }}
-        signingkey = 7DBB4C0A9D8F246B
+    name = Anthony '{{ .github_user }}' Poinsot
+    email = {{ .email }}
+    signingkey = 7DBB4C0A9D8F246B
 [gpg]
-        program = gpg2
+    program = gpg2
 [commit]
-        gpgsign = true
+    gpgsign = true
 [credential]
-        helper = cache
+    helper = cache
+
+[core]
+    pager = delta
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    features = {{ .color_scheme }}
+    navigate = true  # use n and N to move between diff sections
+    side-by-side = true
+    line-numbers = true
+
 [merge]
 	tool = nvimdiff
 [mergetool]
 	prompt = true
 [mergetool "nvimdiff"]
 	cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
-[difftool]
-	prompt = false
-[diff]
-	tool = nvimdiff
-[difftool "nvimdiff"]
-	cmd = nvim -d $LOCAL $REMOTE
