@@ -33,9 +33,9 @@ export FZF_ALT_C_OPTS="
   --exit-0
   --preview 'eza --tree --level=2 {}'"
 
-for ext in md PKGBUILD py tex txt;                   do alias -s $ext=$EDITOR; done
-for ext in com html net no org php;                  do alias -s $ext=$BROWSER; done
-for ext in pdf;                                      do alias -s $ext=$READER; done
-for ext in bmp cdr gif ico jpeg jpg JPG png svg xpm; do alias -s $ext=$PICVIEW; done
-for ext in flac mp3 ogg wav;                         do alias -s $ext=$SNDPLAY; done
-for ext in avi mkv mp4 mpg wmv;                      do alias -s $ext=$MOVPLAY; done
+for ext in md PKGBUILD py tex txt;                    do alias -s $ext=$EDITOR; done
+for ext in com html net no org php;                   do alias -s $ext=$BROWSER; done
+for ext in pdf;                                       do alias -s $ext=$READER; done
+for ext in bmp cdr gif ico jpeg jpg JPG png svg xpm;  do alias -s $ext=$PICVIEW; done
+for ext in flac mp3 ogg wav;                          do alias -s $ext=$SNDPLAY; done
+for ext in avi mkv mp4 mpg wmv webm;                  do alias -s $ext=$MOVPLAY; done
