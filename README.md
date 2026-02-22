@@ -8,7 +8,8 @@ Here is my new dotfiles management repository using [Chezmoi](https://github.com
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply anypot
 ```
 
-Depending on the options selected during the installation, you may encounter errors on the first run. If you encounter an error, run `chezmoi apply`.
+Depending on the options selected during the installation, you may encounter errors
+on the first run. If you encounter an error, run `chezmoi apply`.
 
 ## Daily Usage
 
@@ -28,4 +29,5 @@ chezmoi apply
 chezmoi update
 ```
 
-Note that if chezmoi hangs waiting for user input, you will need to kill the process (`killall chezmoi`) and run `apply` manually, because chezmoi locks the database.
+Note that if chezmoi hangs waiting for user input, you will need to kill the process
+(`killall chezmoi`) and run `apply` manually, because chezmoi locks the database.

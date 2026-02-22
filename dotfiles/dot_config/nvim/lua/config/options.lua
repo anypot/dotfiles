@@ -12,3 +12,9 @@ opt.breakindent = true -- Enable break indent
 opt.hidden = true -- Hide buffers in background instead of closing them when opening a new file
 opt.hlsearch = false -- Remove highlight on search
 opt.mouse = "" -- Disable mouse mode
+
+-- LSP Server to use for Rust.
+-- Set to "bacon-ls" to use bacon-ls instead of rust-analyzer.
+-- Only for diagnostics. The rest of LSP support will still be
+-- provided by rust-analyzer.
+vim.g.lazyvim_rust_diagnostics = "bacon-ls"
