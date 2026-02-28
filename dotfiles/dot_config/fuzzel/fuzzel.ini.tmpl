@@ -3,6 +3,8 @@ include=~/.config/fuzzel/themes/{{ .color_scheme }}.ini
 [main]
 font = monospace:size=12
 icons-enabled = false
+enable-mouse = false
+minimal-lines = true
 prompt = ""
 dpi-aware = no
 use-bold = false
@@ -14,11 +16,13 @@ horizontal-pad = 10
 exit-immediately-if-empty = true
 
 [border]
-width = 0
-radius = 0
+width = 2
+radius = 20
+selection-radius = 5
 
 [key-bindings]
-delete-line-forward = none
+delete-line-backward = Control+0
+delete-line-forward = Control+Shift+4
 next = Down Control+j
 prev = Up Control+k
 next-page = Shift+j

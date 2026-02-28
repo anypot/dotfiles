@@ -1,0 +1,104 @@
+$schema: >-
+  https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+version: 4
+blocks:
+  - alignment: left
+    segments:
+      - background: white
+        foreground: black
+        style: powerline
+        template: ' {{ if .WSL }}WSL at {{ end }}{{.Icon}} '
+        leading_powerline_symbol: 
+        powerline_symbol: 
+        type: os
+      - background: blue
+        foreground: lightWhite
+        powerline_symbol: 
+        options:
+          style: fish
+          dir_length: 1
+          full_length_dirs: 3
+          edge_format: <b>%s</b>
+        style: powerline
+        template: ' {{ if eq .PWD "~" }}{{ else }}{{end}} {{ .Path }} '
+        type: path
+      - background: green
+        foreground: black
+        powerline_symbol: 
+        options:
+          fetch_status: true
+          fetch_upstream_icon: true
+        style: powerline
+        template: ' {{ .UpstreamIcon }} {{ .HEAD }} {{ if .BranchStatus }}{{ .BranchStatus }}{{ end }} {{ if .Working.Changed }}{{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} | {{ end }}{{ if .Staging.Changed }}{{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }} {{ end }}'
+        type: git
+    type: prompt
+  - alignment: right
+    filler: ─
+    segments:
+      - background: black
+        foreground: cyan
+        style: powerline
+        invert_powerline: true
+        powerline_symbol: 
+        template: ' {{ if ne .Jobs 0 }}{{ end }} '
+        type: text
+      - background: '#306998'
+        foreground: black
+        style: powerline
+        invert_powerline: true
+        powerline_symbol: 
+        template: '  {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }} {{ end }}{{ .Full }}{{ end }} '
+        type: python
+      - background: '#7fd5ea'
+        foreground: black
+        style: powerline
+        invert_powerline: true
+        powerline_symbol: 
+        template: '  {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} '
+        type: go
+      - background: '#99908a'
+        foreground: black
+        style: powerline
+        invert_powerline: true
+        powerline_symbol: 
+        template: '  {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} '
+        type: rust
+      - background: red
+        foreground: yellow
+        options:
+          status_template: '{{ reason .Code }} ✘'
+        style: powerline
+        invert_powerline: true
+        powerline_symbol: 
+        type: status
+      - background: yellow
+        foreground: black
+        options:
+          always_enabled: true
+        template: " {{ .FormattedMs }}  "
+        style: powerline
+        invert_powerline: true
+        powerline_symbol: 
+        type: executiontime
+      - background: white
+        foreground: black
+        options:
+          time_format: 15:04:05
+        invert_powerline: true
+        style: diamond
+        trailing_diamond: 
+        template: ' {{ .CurrentDate | date .Format }}  '
+        type: time
+    type: prompt
+  - alignment: left
+    newline: true
+    segments:
+      - foreground: green
+        foreground_templates:
+          - '{{ if gt .Code 0 }}#FF5252{{ end }}'
+        options:
+          always_enabled: true
+        style: plain
+        template: '❯ '
+        type: status
+    type: prompt

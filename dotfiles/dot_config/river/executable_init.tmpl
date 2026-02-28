@@ -5,7 +5,6 @@
 #-----------------------------------------------------#
 
 launcher="fuzzel --placeholder Launching..."
-clip="cliphist list | fuzzel --dmenu --with-nth 2 | cliphist decode | wl-copy"
 terminal="alacritty"
 browser="firefox"
 mail="thunderbird"
@@ -54,14 +53,14 @@ riverctl map normal $mod E spawn "$filemgr"
 riverctl map normal $mod Space spawn "$launcher"
 
 # Super+V = start clipboard manager
-riverctl map normal $mod V spawn "$clip"
+riverctl map normal $mod V spawn "${HOME}/.local/bin/cliphist-fuzzel"
 
 # Print               = print with grim
 # Control+Print       = capture screen
 # Control+Shift+Print = capture area
-riverctl map normal None Print spawn "${HOME}/.local/bin/grim-capture-all"
-riverctl map normal Control Print spawn "${HOME}/.local/bin/grim-capture-screen"
-riverctl map normal Control+Shift Print spawn "${HOME}/.local/bin/grim-capture-area"
+riverctl map normal None Print spawn "${HOME}/.local/bin/grim-capture all"
+riverctl map normal Control Print spawn "${HOME}/.local/bin/grim-capture screen"
+riverctl map normal Control+Shift Print spawn "${HOME}/.local/bin/grim-capture area"
 
 # Super+W = close the focused view
 riverctl map normal $mod W close
@@ -140,9 +139,9 @@ for mode in normal locked; do
   riverctl map $mode None XF86Eject spawn 'eject -T'
 
   # Control pulse audio volume with pamixer (https://github.com/cdemoulins/pamixer)
-  riverctl map $mode None XF86AudioRaiseVolume spawn 'pamixer -i 5'
-  riverctl map $mode None XF86AudioLowerVolume spawn 'pamixer -d 5'
-  riverctl map $mode None XF86AudioMute spawn 'pamixer --toggle-mute'
+  riverctl map $mode None XF86AudioRaiseVolume spawn "${HOME}/.local/bin/volume up"
+  riverctl map $mode None XF86AudioLowerVolume spawn "${HOME}/.local/bin/volume down"
+  riverctl map $mode None XF86AudioMute spawn "${HOME}/.local/bin/volume mute"
 
   # Control MPRIS aware media players with playerctl (https://github.com/altdesktop/playerctl)
   riverctl map $mode None XF86AudioMedia spawn 'playerctl play-pause'

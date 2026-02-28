@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+notify() { notify-send -h int:value:"${volume}" "Volume ${volume}%"; }
+
+case "$1" in
+up) pamixer --increase 5 ;;
+down) pamixer --decrease 5 ;;
+mute) pamixer --toggle-mute && pkill -RTMIN+5 waybar ;;
+esac
+
+volume=$(pamixer --get-volume)
+mute=$(pamixer --get-mute)
+
+([[ "${mute}" = "false" ]] && notify) || (makoctl dismiss -g)
