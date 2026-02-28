@@ -1,0 +1,20 @@
+[general]
+import = ["~/.config/alacritty/themes/{{ .term_colorscheme }}.toml"]
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+# fc-list : family | sort -f | grep Nerd F
+normal = { family = "JetBrainsMono NFM Medium" }
+# normal = { family = "0xProto Nerd Font Mono" }
+# normal = { family = "IosevkaTerm NFM Medium" }
+# normal = { family = "FiraCode Nerd Font Mono Med" }
+# normal = { family = "Hack Nerd Font Mono" }
+# normal = { family = "VictorMono NFM Medium" }
+size = 12
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "Return"
+mods = "Control|Shift"

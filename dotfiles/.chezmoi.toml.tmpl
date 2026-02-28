@@ -41,24 +41,74 @@
 {{-   $email := promptStringOnce . "email" "Business email address" -}}
 {{- end -}}
 
-{{- $defaultColorScheme := "tokyonight" -}}
 {{- $colorSchemes := list "catppuccin" "dracula" "gruvbox" "kanagawa" "onedark" "rose-pine" "solarized" "tokyonight" -}}
-{{- $colorScheme := promptChoice "Color scheme" $colorSchemes $defaultColorScheme -}}
+{{- $defaultTermColorScheme := "rose-pine" -}}
+{{- $defaultNvimColorScheme := "tokyonight" -}}
+{{- $defaultSysColorScheme := "rose-pine" -}}
+
+{{- $colorSchemesMap := dict
+  "catppuccin" (dict
+    "termColorScheme" "catppuccin_mocha"
+    "nvimColorScheme" "catppuccin"
+    "sysColorScheme" $defaultSysColorScheme
+  )
+  "dracula" (dict
+    "termColorScheme" "dracula"
+    "nvimColorScheme" "dracula"
+    "sysColorScheme" "dracula"
+  )
+  "gruvbox" (dict
+    "termColorScheme" "gruvbox_dark"
+    "nvimColorScheme" "gruvbox"
+    "sysColorScheme" $defaultSysColorScheme
+  )
+  "kanagawa" (dict
+    "termColorScheme" "kanagawa_dragon"
+    "nvimColorScheme" "kanagawa"
+    "sysColorScheme" $defaultSysColorScheme
+  )
+  "onedark" (dict
+    "termColorScheme" "one_dark"
+    "nvimColorScheme" "onedark"
+    "sysColorScheme" $defaultSysColorScheme
+  )
+  "rose-pine" (dict
+    "termColorScheme" "rose_pine"
+    "nvimColorScheme" "rose-pine"
+    "sysColorScheme" "rose-pine"
+  )
+  "solarized" (dict
+    "termColorScheme" "solarized_osaka"
+    "nvimColorScheme" "solarized-osaka"
+    "sysColorScheme" $defaultSysColorScheme
+  )
+  "tokyonight" (dict
+    "termColorScheme" "tokyo_night_enhanced"
+    "nvimColorScheme" "tokyonight"
+    "sysColorScheme" "tokyonight"
+  )
+-}}
+
+{{- $termColorScheme := promptChoice "Terminal color scheme" $colorSchemes $defaultTermColorScheme -}}
+{{- $nvimColorScheme := promptChoice "Neovim color scheme" $colorSchemes $defaultNvimColorScheme -}}
+{{- $sysColorScheme := promptChoice "System color scheme" $colorSchemes $defaultSysColorScheme -}}
 
 [data]
-  color_scheme   = {{ $colorScheme | quote }}
-  email         = {{ $email | quote }}
-  ephemeral     = {{ $ephemeral }}
-  headless      = {{ $headless }}
-  hostname      = {{ $hostname | quote }}
-  github_user   = "anypot"
-  osid          = {{ $osID | quote }}
-  personal      = {{ $personal }}
-  work          = {{ $work }}
-  xdgCacheHome  = "{{ .chezmoi.homeDir }}/.cache"
-  xdgConfigHome = "{{ .chezmoi.homeDir }}/.config"
-  xdgDataHome   = "{{ .chezmoi.homeDir }}/.local/share"
-  xdgStateHome  = "{{ .chezmoi.homeDir }}/.local/state"
+  term_colorscheme = {{ (index $colorSchemesMap $termColorScheme).termColorScheme | quote }}
+  nvim_colorscheme = {{ (index $colorSchemesMap $nvimColorScheme).nvimColorScheme | quote }}
+  sys_colorscheme  = {{ (index $colorSchemesMap $sysColorScheme).sysColorScheme | quote }}
+  email            = {{ $email | quote }}
+  ephemeral        = {{ $ephemeral }}
+  headless         = {{ $headless }}
+  hostname         = {{ $hostname | quote }}
+  github_user      = "anypot"
+  osid             = {{ $osID | quote }}
+  personal         = {{ $personal }}
+  work             = {{ $work }}
+  xdgCacheHome     = "{{ .chezmoi.homeDir }}/.cache"
+  xdgConfigHome    = "{{ .chezmoi.homeDir }}/.config"
+  xdgDataHome      = "{{ .chezmoi.homeDir }}/.local/share"
+  xdgStateHome     = "{{ .chezmoi.homeDir }}/.local/state"
 
 [diff]
   pager = "delta"

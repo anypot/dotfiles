@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+notify() {
+  notify-send --app-name "wl-screenrec" \
+    --urgency "low" \
+    "wl-screenrec" "$1"
+}
+
+record() {
+  local geom=()
+  if [[ -n "${1:-}" ]]; then
+    local fixed
+    # AV1 encoding leaves a green edge strip unless the capture W/H are
+    # multiples of 16 (origin doesn't matter).
+    # Round the selection size down to 16.
+    fixed="$(echo "$1" | awk '
+      {
+      split($1,p,",")
+      split($2,s,"x")
+      s[1]-=s[1]%16
+      s[2]-=s[2]%16
+      print p[1] "," p[2] " " s[1] "x" s[2]
+      }
+    ')"
+    geom=(--geometry "${fixed}")
+  fi
+  wl-screenrec --codec av1 \
+    --low-power=off \
+    --filename "${location}" \
+    "${geom[@]}" &
+  echo $! >"${pid_file}"
+  echo "${location}" >"${loc_file}"
+}
+
+dir="${HOME}/Videos/recordings"
+location="${dir}/$(date +'%s_%N_screenrec.mp4')"
+pid_file="${XDG_RUNTIME_DIR}/screenrec.pid"
+loc_file="${XDG_RUNTIME_DIR}/screenrec.location"
+
+mkdir -p "${dir}"
+
+case "${1:-}" in
+all)
+  [[ -f "${pid_file}" ]] && notify "Recording already running" && exit 0
+  notify "Recording started (full screen)"
+  record
+  ;;
+area)
+  [[ -f "${pid_file}" ]] && notify "Recording already running" && exit 0
+  g="$(slurp -d)" || exit 1
+  notify "Recording started (area)"
+  record "$g"
+  ;;
+screen)
+  [[ -f "${pid_file}" ]] && notify "Recording already running" && exit 0
+  g="$(slurp -d -o)" || exit 1
+  notify "Recording started (screen)"
+  record "$g"
+  ;;
+stop)
+  [[ ! -f "${pid_file}" ]] && notify "No active recording" && exit 0
+  kill -INT "$(cat "${pid_file}")" 2>/dev/null || true
+  notify "Recording saved to\n$(cat "${loc_file}")"
+  rm -f "${pid_file}" "${loc_file}"
+  ;;
+*)
+  echo "usage: $0 {all|area|screen|stop}" >&2
+  exit 1
+  ;;
+esac

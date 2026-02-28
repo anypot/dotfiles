@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+mode="$1"
+file="${XDG_RUNTIME_DIR}/river-mode"
+riverctl enter-mode "${mode}" &&
+  notify-send -a system -u low 'River' "${mode^} mode" &&
+  [ "${mode}" != "normal" ] && echo "${mode^^}" >"${file}" || echo >"${file}"
+pkill -RTMIN+8 waybar
