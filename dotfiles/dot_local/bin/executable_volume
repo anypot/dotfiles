@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+notify() { notify-send -h int:value:"${volume}" "Volume ${volume}%"; }
+
+case "$1" in
+up) wpctl set-volume @DEFAULT_SINK@ 5%+ ;;
+down) wpctl set-volume @DEFAULT_SINK@ 5%- ;;
+mute) wpctl set-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+5 waybar ;;
+esac
+
+get_vol=$(wpctl get-volume @DEFAULT_SINK@ 2>/dev/null | grep "Volume:")
+if echo "${get_vol}" | grep -qv MUTED; then
+  volume=$(echo "$(echo "${get_vol}" | cut -d" " -f2) 100" | awk '{print $1 * $2}')
+  notify
+else
+  makoctl dismiss -g
+fi
+
+# Mute/unmute the microphone
+# wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle

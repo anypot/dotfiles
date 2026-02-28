@@ -3,13 +3,14 @@ common:
     delete: []
     install:
       - alacritty
-      - awesome-terminal-fonts
+      - alsa-utils
       - bat
       - bottom
       - chezmoi
       - cliphist
       - ctags
       - curl
+      - duf
       - eza
       - fastfetch
       - fd
@@ -17,8 +18,10 @@ common:
       - fzf
       - git
       - git-delta
+      - gping
       - grim
       - htop
+      - impala
       - imv
       - just
       - lazygit
@@ -27,8 +30,10 @@ common:
       - mpv
       - ncdu
       - neovim
-      - nm-connection-editor
+      - npm
       - ntfs-3g
+      - pipewire-alsa
+      - pipewire-pulse
       - procs
       - ripgrep
       - river
@@ -42,8 +47,15 @@ common:
       - thefuck
       - tmux
       - tmuxp
+      - ttf-0xproto-nerd
+      - ttf-firacode-nerd
+      - ttf-hack-nerd
+      - ttf-iosevkaterm-nerd
+      - ttf-jetbrains-mono-nerd
+      - ttf-victor-mono-nerd
       - unzip
       - waybar
+      - wiremix
       - wl-clipboard
       - yazi
       - yt-dlp
@@ -52,11 +64,25 @@ common:
       - zsh-completions
       - zsh-syntax-highlighting
       # difftastic, zoxide, navi or alternative?, bandwhich or alternative???
+  aur:
+    delete: []
+    install:
+      - kilo-bin
+      - oh-my-posh-bin
 archbtw:
   packages:
     delete: []
-    install: []
+    install:
+      - broadcom-wl-dkms
+      - nm-connection-editor
+  aur:
+    delete: []
+    install:
+      - lswt
 exile:
   packages:
+    delete: []
+    install: []
+  aur:
     delete: []
     install: []

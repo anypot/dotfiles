@@ -11,8 +11,9 @@ if [[ -n ${UV_PATH} ]]; then
     ${UV_PATH} tool install ansible-core
 fi
 
-ansible-galaxy collection install community.general
-
+{{ if eq .chezmoi.osRelease.id "arch" -}}
+ansible-galaxy collection install --upgrade community.general kewlfft.aur
 success "Ansible packages and collections installed"
+{{ end }}
 
 _safeExit_

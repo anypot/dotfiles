@@ -6,18 +6,23 @@ install=false
 
 # Declare a regular array for the package names
 declare -a packages=(
+    # For uv install
     "curl"
     "unzip"
     "wget"
+    # For utils.sh lol...
+    "inetutils"
 )
 
 to_install=()
 
 # Loop through the commands to check if they're installed
-for cmd in "${packages[@]}"; do
+for pkg in "${packages[@]}"; do
+    # inetutils is not a command, use telnet instead
+    [[ "${pkg}" == "inetutils" ]] && cmd=telnet || cmd="${pkg}"
     if ! command -v "${cmd}" &>/dev/null; then
         install=true
-        to_install+=("${cmd}")
+        to_install+=("${pkg}")
     fi
 done
 
