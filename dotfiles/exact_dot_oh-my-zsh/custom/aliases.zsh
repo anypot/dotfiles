@@ -8,8 +8,8 @@ alias llm='eza -lbGF --git --sort=modified'                            # long li
 alias la='eza -lbhHigUmuSa --time-style=long-iso --git --color-scale'  # all list
 alias lx='eza -lbhHigUmuSa@ --time-style=long-iso --git --color-scale' # all + extended list
 alias lS='eza -1'                                                      # one column, just names
-alias tree='eza --tree --level=2'                                        # tree
-alias df='df -h'
+alias tree='eza --tree --level=2'                                      # tree
+alias df='duf'
 alias dui='ncdu -e --color=dark'
 alias biggest='du -x | sort -nr | head -10'
 alias mountt='mount | column -t'
@@ -28,13 +28,25 @@ alias -s {yml,yaml,sh,zsh}=nvim
 alias -g F='| fzf'
 
 # System
-alias dot='chezmoi edit'
 alias ps='procs'
 alias top='btm --basic'
 alias path='echo -e ${PATH//:/\\n}'
 alias shutdown='sudo shutdown -h now'
 alias reboot='sudo reboot'
 alias ssh='TERM=rxvt-256color ssh'
+
+# Network
+alias ping='gping'
+
+# Chezmoi
+dot () { cd "$(chezmoi source-path)/.."; nvim README.md }
+alias ch='chezmoi'
+alias chcd='chezmoi cd'
+alias chd='chezmoi diff'
+alias chst='chezmoi status'
+alias cha='chezmoi add'
+alias che='chezmoi edit'
+alias chap='chezmoi apply'
 
 # Misc
 alias c=clear

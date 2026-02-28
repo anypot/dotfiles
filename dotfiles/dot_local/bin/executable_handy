@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+APPDIR="$HOME/Applications"
+
+latest=$(ls -1t "$APPDIR"/Handy*.AppImage 2>/dev/null | head -n 1)
+if [[ -z "$latest" ]]; then
+  echo "No Handy AppImage found in $APPDIR"
+  exit 1
+fi
+
+# Optional global flags (edit as needed)
+FLAGS=(
+  # "--debug"
+  # "--start-hidden"
+  # "--flag=value"
+)
+
+exec "$latest" "${FLAGS[@]}" "$@"

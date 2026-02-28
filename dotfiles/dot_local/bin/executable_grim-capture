@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+dir="${HOME}/Pictures/screenshots"
+location="${dir}/$(date +'%s_%N_grim.png')"
+
+mkdir -p "${dir}"
+
+case "${1:-}" in
+all) grim "${location}" ;;
+area)
+  geom="$(slurp -d)" || exit 1
+  grim -g "${geom}" "${location}"
+  ;;
+screen)
+  geom="$(slurp -d -o)" || exit 1
+  grim -g "${geom}" "${location}"
+  ;;
+*)
+  echo "usage: $0 {all|area|screen}" >&2
+  exit 1
+  ;;
+esac
+
+wl-copy <"${location}"
+notify-send --app-name "grim" --urgency "low" \
+  --action "default=Open screenshot" \
+  "grim" "Screenshot saved to\n${location}"

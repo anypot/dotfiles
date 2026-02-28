@@ -19,7 +19,7 @@
 }
 
 window > box {
-  background-color: @transparent;
+  background-color: transparent;
 }
 
 tooltip {
@@ -59,7 +59,7 @@ tooltip label{
   background-color: @selection;
 }
 
-#mode, #clock, #disk, #memory, #temperature, #cpu, #temperature, #backlight, #network, #battery, #window, #custom-weather, #mpd, #wireplumber, #custom-pipewire, #custom-wallpaper, #custom-pacman, #custom-clipboard, #custom-power {
+#mode, #clock, #disk, #memory, #temperature, #cpu, #temperature, #backlight, #network, #battery, #window, #custom-weather, #mpd, #wireplumber, #custom-pipewire, #custom-wallpaper, #custom-pacman, #custom-clipboard, #custom-power, #custom-river-mode{
   background-color: @background-darker;
 }
 
@@ -85,6 +85,10 @@ tooltip label{
 }
 
 #memory {
+  color: @cyan;
+}
+
+#battery {
   color: @cyan;
 }
 
@@ -122,4 +126,9 @@ tooltip label{
 
 #disk {
   color: @green;
+}
+
+#custom-river-mode {
+  color: @purple;
+  border: 2px solid @purple;
 }

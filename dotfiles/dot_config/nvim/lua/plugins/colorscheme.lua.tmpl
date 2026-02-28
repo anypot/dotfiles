@@ -1,6 +1,11 @@
 return {
   { "Mofiqul/dracula.nvim" },
-  { "ellisonleao/gruvbox.nvim" },
+  {
+    "ellisonleao/gruvbox.nvim",
+    opts = {
+      contrast = "hard",
+    },
+  },
   {
     "rebelot/kanagawa.nvim",
     opts = {
@@ -11,18 +16,34 @@ return {
       },
     },
   },
-  { "navarasu/onedark.nvim", opts = {
-    style = "darker",
-  } },
+  {
+    "navarasu/onedark.nvim",
+    opts = {
+      style = "darker",
+    },
+  },
   {
     "rose-pine/neovim",
     name = "rose-pine",
   },
-  { "maxmx03/solarized.nvim" },
+  {
+    "craftzdog/solarized-osaka.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      transparent = false,
+    },
+  },
+  {
+    "folke/tokyonight.nvim",
+    opts = {
+      style = "night",
+    },
+  },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "{{ .color_scheme }}",
+      colorscheme = "{{ .nvim_colorscheme }}",
     },
   },
 }
