@@ -1,16 +1,76 @@
 ---
-- name: "Ansible playbook to manage system packages"
+- name: Ansible playbook to manage system packages
   hosts: 127.0.0.1
   connection: local
   gather_facts: true
   tasks:
-    - name: "Delete system packages"
+    - name: Delete system packages
       become: true
       ansible.builtin.package:
-        name: "{{ common.packages.delete + vars[ansible_hostname].packages.delete | default([]) }}"
+        name: "{{ common.packages.delete + lookup('ansible.builtin.vars', ansible_facts['hostname']).packages.delete | default([]) }}"
         state: absent
-    - name: "Install system packages"
+    - name: Install system packages
       become: true
       ansible.builtin.package:
-        name: "{{ common.packages.install + vars[ansible_hostname].packages.install | default([]) }}"
+        name: "{{ common.packages.install + lookup('ansible.builtin.vars', ansible_facts['hostname']).packages.install | default([]) }}"
         state: present
+    - block:
+        - name: Get zsh path
+          ansible.builtin.command: which zsh
+          register: zsh_path
+          changed_when: false
+        - name: Ensure that zsh is the user's shell
+          become: true
+          ansible.builtin.user:
+            name: "{{ ansible_facts['user_id'] }}"
+            shell: "{{ zsh_path.stdout }}"
+      when: ansible_facts['user_id'] != 'root'
+    - block:
+        - name: Check user before AUR operations
+          ansible.builtin.assert:
+            that: ansible_facts['user_id'] != 'root'
+            success_msg: "User is {{ ansible_facts['user_id'] }}."
+            fail_msg: AUR helpers do not allow executing operations as root. Create your own user first.
+        - name: Get systemd-resolved service status
+          ansible.builtin.service_facts:
+        - name: Replace /etc/resolv.conf with /run/systemd/resolve/stub-resolv.conf if using systemd-resolved service
+          become: true
+          ansible.builtin.file:
+            src: /run/systemd/resolve/stub-resolv.conf
+            dest: /etc/resolv.conf
+            state: link
+            force: true
+          when: ansible_facts.services['systemd-resolved.service'].status == 'enabled'
+        - name: Install base-devel package
+          become: true
+          ansible.builtin.package:
+            name: base-devel
+            state: present
+        - name: Install yay helper using makepkg
+          become: true
+          become_user: "{{ ansible_facts['user_id'] }}"
+          kewlfft.aur.aur:
+            name: yay
+            use: makepkg
+            state: present
+        - name: Set AUR packages lists
+          set_fact:
+            aur_delete: "{{ common.aur.delete + lookup('ansible.builtin.vars', ansible_facts['hostname']).aur.delete | default([]) }}"
+            aur_install: "{{ common.aur.install + lookup('ansible.builtin.vars', ansible_facts['hostname']).aur.install | default([]) }}"
+        - name: Delete AUR packages using yay
+          become: true
+          become_user: "{{ ansible_facts['user_id'] }}"
+          kewlfft.aur.aur:
+            name: "{{ aur_delete }}"
+            use: yay
+            state: absent
+          when: aur_delete | length > 0
+        - name: Install AUR packages using yay
+          become: true
+          become_user: "{{ ansible_facts['user_id'] }}"
+          kewlfft.aur.aur:
+            name: "{{ aur_install }}"
+            use: yay
+            state: present
+          when: aur_install | length > 0
+      when: ansible_facts['os_family'] == "Archlinux"
