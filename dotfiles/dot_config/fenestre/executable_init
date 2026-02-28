@@ -1,0 +1,31 @@
+#!/bin/sh
+
+#-----------------------------------------------------#
+#                      START                          #
+#-----------------------------------------------------#
+
+dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=river
+
+echo >"${XDG_RUNTIME_DIR}/river-mode"
+
+/home/tony/devlab/fenestre/target/debug/fenestre &
+
+executes="waybar mako swaybg wl-paste"
+
+for execute in $executes; do
+  pidof -q "$execute" && continue
+  case $execute in
+  "wl-paste")
+    "$execute" --watch cliphist -max-items 100 store &
+    ;;
+  "swaybg")
+    "$execute" -m fill -i "${HOME}/Pictures/wallpapers/arch.png" &
+    ;;
+  "swayidle")
+    "$execute" -w &
+    ;;
+  *)
+    "$execute" &
+    ;;
+  esac
+done >/dev/null 2>&1

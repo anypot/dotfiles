@@ -60,7 +60,7 @@ tooltip label{
   background: @bg_bright;
 }
 
-#mode, #clock, #disk, #memory, #temperature, #cpu, #temperature, #backlight, #network, #battery, #window, #custom-weather, #mpd, #wireplumber, #custom-pipewire, #custom-wallpaper, #custom-pacman, #custom-clipboard, #custom-power {
+#mode, #clock, #disk, #memory, #temperature, #cpu, #temperature, #backlight, #network, #battery, #window, #custom-weather, #mpd, #wireplumber, #custom-pipewire, #custom-wallpaper, #custom-pacman, #custom-clipboard, #custom-power , #custom-river-mode{
   background: @bg;
 }
 
@@ -86,6 +86,10 @@ tooltip label{
 }
 
 #memory {
+  color: @aqua;
+}
+
+#battery {
   color: @aqua;
 }
 
@@ -123,4 +127,9 @@ tooltip label{
 
 #disk {
   color: @blue;
+}
+
+#custom-river-mode {
+  color: @blue_dark;
+  border: 2px solid @blue_dark;
 }

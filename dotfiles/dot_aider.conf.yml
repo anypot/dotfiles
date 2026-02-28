@@ -1,0 +1,23 @@
+# --- MODEL ---
+model: ollama/qwen2.5-coder:14b
+
+# --- UI ---
+dark-mode: true
+pretty: true
+stream: true
+
+# --- GIT WORKFLOW ---
+git: true
+auto-commits: false
+dirty-commits: false
+
+# --- CONTEXT ---
+map-tokens: 2048
+max-chat-history-tokens: 8000
+
+# --- PERFORMANCE ---
+cache-prompts: true
+watch-files: true
+
+# --- BEHAVIOR ---
+auto-test: false

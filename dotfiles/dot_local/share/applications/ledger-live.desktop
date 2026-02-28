@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Ledger Live
+Comment=Ledger Live AppImage launcher
+Icon=ledger-live
+Exec=ledger-live
+Terminal=false
+Categories=Utility;
+StartupNotify=true
