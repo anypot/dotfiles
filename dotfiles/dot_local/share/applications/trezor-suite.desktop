@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Trezor Suite
+Comment=Trezor Suite AppImage launcher
+Icon=trezor-suite
+Exec=trezor-suite
+Terminal=false
+Categories=Finance;Office;
+StartupNotify=true

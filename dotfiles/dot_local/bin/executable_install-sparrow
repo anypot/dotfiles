@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Configuration
+VERSION="${1:-2.5.5}"
+ARCH="x86_64"
+INSTALL_DIR="${HOME}/Applications/Sparrow"
+FINGERPRINT="D4D0D3202FC06849A257B38DE94618334C674B40"
+KEY_URL="https://keybase.io/craigraw/pgp_keys.asc"
+BASE_URL="https://github.com/sparrowwallet/sparrow/releases/download/${VERSION}"
+
+ARCHIVE="sparrowwallet-${VERSION}-${ARCH}.tar.gz"
+MANIFEST="sparrow-${VERSION}-manifest.txt"
+
+TMP_DIR="$(mktemp -d)"
+trap 'rm -rf "$TMP_DIR"' EXIT
+
+# Fetch the official signing key and merge updates
+curl -fsSL "$KEY_URL" | gpg --import
+
+# Verify the expected signing key fingerprint
+if ! gpg --with-colons --fingerprint "$FINGERPRINT" 2>/dev/null |
+  awk -F: -v fp="$FINGERPRINT" \
+    '$1 == "fpr" && $10 == fp { found=1 }
+         END { exit !found }'; then
+  echo "ERROR: Expected GPG fingerprint not found." >&2
+  exit 1
+fi
+
+cd "$TMP_DIR"
+
+# Download the release files
+curl -fLO "${BASE_URL}/${ARCHIVE}"
+curl -fLO "${BASE_URL}/${MANIFEST}"
+curl -fLO "${BASE_URL}/${MANIFEST}.asc"
+
+# Verify the signed manifest
+gpg --verify "${MANIFEST}.asc" "$MANIFEST"
+
+# Verify the archive checksum
+grep -F "$ARCHIVE" "$MANIFEST" >SHA256SUMS
+sha256sum --check SHA256SUMS
+
+# Extract the verified archive
+mkdir extracted
+tar -xzf "$ARCHIVE" --strip-components=1 -C extracted
+
+# Ensure the executable exists
+if ! find extracted -type f -iname 'sparrow' -print -quit | grep -q .; then
+  echo "ERROR: Sparrow executable not found in archive." >&2
+  exit 1
+fi
+
+# Stage the installation
+rm -rf "${INSTALL_DIR}.new"
+mkdir -p "${INSTALL_DIR}.new"
+cp -a extracted/. "${INSTALL_DIR}.new/"
+
+# Replace the existing installation
+if [[ -d "$INSTALL_DIR" ]]; then
+  rm -rf "${INSTALL_DIR}.old"
+  mv "$INSTALL_DIR" "${INSTALL_DIR}.old"
+fi
+
+mv "${INSTALL_DIR}.new" "$INSTALL_DIR"
+rm -rf "${INSTALL_DIR}.old"
+
+echo "Sparrow Wallet ${VERSION} installed successfully in ${INSTALL_DIR}"

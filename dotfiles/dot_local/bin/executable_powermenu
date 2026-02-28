@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-confirm="echo -e 'Yes\nNo' | fuzzel --dmenu --lines 2 --placeholder Sure?"
-case $(printf "Lock\nLogout\nSuspend\nReboot\nShutdown" | fuzzel --dmenu --lines 5 --placeholder Quit?) in
+confirm="echo -e 'No\nYes' | fuzzel --dmenu --auto-select --placeholder Sure?"
+case $(printf "Lock\nLogout\nSuspend\nReboot\nShutdown" | fuzzel --dmenu --placeholder Quit?) in
 "Lock")
   swaylock
   ;;
