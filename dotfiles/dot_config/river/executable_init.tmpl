@@ -5,12 +5,17 @@
 #-----------------------------------------------------#
 
 launcher="fuzzel --placeholder Launching..."
-clip="cliphist list | fuzzel --dmenu --with-nth 2 | cliphist decode | wl-copy"
 terminal="alacritty"
 browser="firefox"
 mail="thunderbird"
+sndmgr="$terminal --class wiremix --title Wiremix --command zsh -ic wiremix"
+netmgr="$terminal --class impala --title Impala --command zsh -ic impala"
 filemgr="$terminal --class yazi --title Yazi --command zsh -ic yazi"
 
+riverctl input pointer-5426-178-Razer_Razer_DeathAdder_V3 accel-profile flat
+riverctl input pointer-5426-178-Razer_Razer_DeathAdder_V3 pointer-accel 0
+riverctl input pointer-2-7-SynPS/2_Synaptics_TouchPad tap enabled
+riverctl input pointer-2-7-SynPS/2_Synaptics_TouchPad tap-button-map left-middle-right
 riverctl set-repeat 50 300
 riverctl keyboard-layout -variant intl us
 riverctl hide-cursor timeout 5000
@@ -38,30 +43,42 @@ rivertile="rivertile -view-padding 6 -outer-padding 6"
 # Use "Super" (= Windows, logo key) as the primary modifier
 mod="Super"
 
+# Super+X = Enter launcher mode
+riverctl declare-mode launcher
+riverctl map normal $mod X spawn "${HOME}/.local/bin/river-enter-mode launcher"
+riverctl map launcher Shift P spawn "${HOME}/.local/bin/powermenu" # P = Shutdown options
+riverctl map launcher Shift U spawn "${HOME}/.local/bin/powermenu" # U = Shutdown options in Windows style
+riverctl map launcher Shift W spawn "${browser}"                   # W = Start web browser
+riverctl map launcher Shift S spawn "${sndmgr}"                    # S = Start sound manager
+riverctl map launcher Shift N spawn "${netmgr}"                    # N = Start network manager
+riverctl map launcher Shift E spawn "${filemgr}"                   # E = Start file manager
+# Super+Escape = Exit launcher mode
+riverctl map launcher $mod Escape spawn "${HOME}/.local/bin/river-enter-mode normal"
+
 # Super+Shift+E = exit river
 riverctl map normal $mod+Shift E exit
 
 # Super+Control+R = reload config
-riverctl map normal $mod+Control R spawn "${HOME}/.config/river/init && notify-send -t 5000 -a System 'River' 'Config reloaded'"
+riverctl map normal $mod+Control R spawn "${HOME}/.config/river/init && notify-send -a system 'River' 'Config reloaded'"
 
 # Super+Return = start terminal
-riverctl map normal $mod Return spawn "$terminal"
+riverctl map normal $mod Return spawn "${terminal}"
 
 # Super+E = start file manager
-riverctl map normal $mod E spawn "$filemgr"
+riverctl map normal $mod E spawn "${filemgr}"
 
 # Super+Space = start launcher
-riverctl map normal $mod Space spawn "$launcher"
+riverctl map normal $mod Space spawn "${launcher}"
 
 # Super+V = start clipboard manager
-riverctl map normal $mod V spawn "$clip"
+riverctl map normal $mod V spawn "${HOME}/.local/bin/cliphist-fuzzel"
 
 # Print               = print with grim
 # Control+Print       = capture screen
 # Control+Shift+Print = capture area
-riverctl map normal None Print spawn "${HOME}/.local/bin/grim-capture-all"
-riverctl map normal Control Print spawn "${HOME}/.local/bin/grim-capture-screen"
-riverctl map normal Control+Shift Print spawn "${HOME}/.local/bin/grim-capture-area"
+riverctl map normal None Print spawn "${HOME}/.local/bin/grim-capture all"
+riverctl map normal Control Print spawn "${HOME}/.local/bin/grim-capture screen"
+riverctl map normal Control+Shift Print spawn "${HOME}/.local/bin/grim-capture area"
 
 # Super+W = close the focused view
 riverctl map normal $mod W close
@@ -140,9 +157,9 @@ for mode in normal locked; do
   riverctl map $mode None XF86Eject spawn 'eject -T'
 
   # Control pulse audio volume with pamixer (https://github.com/cdemoulins/pamixer)
-  riverctl map $mode None XF86AudioRaiseVolume spawn 'pamixer -i 5'
-  riverctl map $mode None XF86AudioLowerVolume spawn 'pamixer -d 5'
-  riverctl map $mode None XF86AudioMute spawn 'pamixer --toggle-mute'
+  riverctl map $mode None XF86AudioRaiseVolume spawn "${HOME}/.local/bin/volume up"
+  riverctl map $mode None XF86AudioLowerVolume spawn "${HOME}/.local/bin/volume down"
+  riverctl map $mode None XF86AudioMute spawn "${HOME}/.local/bin/volume mute"
 
   # Control MPRIS aware media players with playerctl (https://github.com/altdesktop/playerctl)
   riverctl map $mode None XF86AudioMedia spawn 'playerctl play-pause'
@@ -191,7 +208,7 @@ chat_tag=$((1 << 12))
 
 # Spawn to
 riverctl rule-add -app-id "firefox" tags $((1 << (2 - 1)))
-riverctl rule-add -app-id "thunderbird" tags $((1 << (3 - 1)))
+riverctl rule-add -app-id "org.mozilla.Thunderbird" tags $((1 << (3 - 1)))
 riverctl rule-add -app-id "libreoffice-*" tags $((1 << (4 - 1)))
 riverctl rule-add -title "LibreOffice" tags $((1 << (4 - 1)))
 riverctl rule-add -app-id "soffice" tags $((1 << (4 - 1)))
@@ -208,11 +225,14 @@ riverctl rule-add -app-id "KeePass2" tags $((1 << (9 - 1)))
 
 # Floaters
 riverctl rule-add -app-id "yazi" float
+riverctl rule-add -app-id "wiremix" float
+riverctl rule-add -app-id "impala" float
 riverctl rule-add -app-id "firefox" -title "About Mozilla Firefox" float
 riverctl rule-add -app-id "firefox" -title "Library" float
 riverctl rule-add -app-id "firefox" -title "Picture-in-Picture" float
-riverctl rule-add -app-id "thunderbird" -title "Enter your password*" float
-riverctl rule-add -app-id "steam" float
+riverctl rule-add -app-id "org.mozilla.Thunderbird" -title "Enter your password*" float
+riverctl rule-add -app-id "steam" dimensions 1280 1080
+riverctl rule-add -app-id "cs2" fullscreen
 riverctl rule-add -app-id "KeePass2" -title "Open Database*" float
 riverctl rule-add -title "Open Database File" float # KeePass2
 riverctl rule-add -app-id "nm-connection-editor" float
@@ -226,6 +246,8 @@ riverctl rule-add -app-id "mpv" fullscreen
 #-----------------------------------------------------#
 
 dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=river
+
+echo >${XDG_RUNTIME_DIR}/river-mode
 
 executes="waybar mako swaybg wl-paste"
 

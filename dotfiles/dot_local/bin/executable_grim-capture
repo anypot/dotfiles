@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+location="${HOME}/Pictures/screenshots/$(date +'%s_grim.png')"
+
+case $1 in
+all) grim "${location}" ;;
+area) grim -g "$(slurp -d)" "${location}" ;;
+screen) grim -g "$(slurp -d -o)" "${location}" ;;
+esac
+
+wl-copy <"${location}"
+notify-send --app-name "grim" --urgency "low" \
+  --action "default=Open screenshot" \
+  "grim" "Screenshot saved to\n${location}"
