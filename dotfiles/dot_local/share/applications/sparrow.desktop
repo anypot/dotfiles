@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Sparrow Wallet
+GenericName=Bitcoin Wallet
+Comment=Bitcoin wallet management
+Exec=sparrow-wallet
+TryExec=sparrow-wallet
+Icon=sparrow-wallet
+Terminal=false
+Categories=Finance;Office;
+StartupNotify=true

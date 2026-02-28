@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+APPDIR="${HOME}/Applications/Sparrow"
+APP="${APPDIR}/bin/Sparrow"
+
+if [[ ! -x "${APP}" ]]; then
+  echo "ERROR: Sparrow executable not found or not executable: ${APP}" >&2
+  exit 1
+fi
+
+# Optional global flags (edit as needed)
+FLAGS=(
+  # "--flag=value"
+)
+
+exec "${APP}" "${FLAGS[@]}" "$@"

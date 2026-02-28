@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Handy
+Comment=Handy AppImage launcher
+Icon=handy
+Exec=handy
+Terminal=false
+Categories=Utility;
+StartupNotify=true

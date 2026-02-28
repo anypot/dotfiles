@@ -1,14 +1,16 @@
 {
   "layer": "top",
-  "height": 30,
+  "height": 60,
   "width": 2560,
   "reload_style_on_change": true,
-  "modules-left": ["river/tags"],
+  "modules-left": ["river/tags", "custom/river-mode"],
   "modules-center": ["river/window"],
   "modules-right": [
     "custom/clipboard",
     "cpu",
     "memory",
+    "battery",
+    "wireplumber",
     "network",
     "custom/weather",
     "clock",
@@ -18,6 +20,17 @@
     "num-tags": 9,
     "tag-labels":["TERM", "WEB", "MAIL", "OFFICE", "CHAT", "MEDIA", "VM", "DL", "PWD"],
     "disable-click": false
+  },
+  // "river/mode": {
+  //   "format": "MODE: {}",
+  //   "tooltip" : false
+  // },
+  "custom/river-mode": {
+    "exec": "cat ${XDG_RUNTIME_DIR}/river-mode",
+    "format": "{}",
+    "tooltip": false,
+    "interval": "once",
+    "signal": 8
   },
   "river/window": {
     "format": "{}",
@@ -33,23 +46,43 @@
       "empty": "󱘡",
       "full": "󰨸",
     },
-    "on-click": "cliphist list | fuzzel --dmenu --with-nth 2 | cliphist decode | wl-copy",
-    "on-click-right": "cliphist wipe; pkill -RTMIN+9 waybar; notify-send -a center_notify 'Clipboard' 'Database deleted'",
+    "on-click": "bash ~/.local/bin/cliphist-fuzzel",
+    "on-click-right": "cliphist wipe; pkill -RTMIN+9 waybar; notify-send --app-name 'cliphist' --urgency 'normal' 'Clipboard' 'Database deleted'",
     "exec-on-event": true,
     "signal": 9,
   },
   "cpu": {
     "interval": 20,
-    "format": "   {usage}%",
+    "format": " {usage}%",
     "tooltip": true
   },
   "memory": {
     "interval": 20,
-    "format": "󰍛  {used:0.2f}GB",
+    "format": "󰍛 {used:0.2f}GB",
     "tooltip": true,
     "states": {
       "warning": 85,
     },
+  },
+  "battery": {
+      "states": { "warning": 30, "critical": 15 },
+      "format-charging": " {capacity}%",
+      "format-full": " 100%",
+      "format": "{icon} {capacity}%",
+      "format-icons": ["", "", "", "", ""]
+  },
+  "wireplumber": {
+      "format": "{icon} {volume}% {format_source}",
+      "format-muted": "  {format_source}",
+      "format-source": "󰍬 {volume}%",
+      "format-source-muted": "󰍭",
+      "format-icons": {
+          "default": ["", "", ""]
+      },
+      "scroll-step": 5.0,
+      "on-click": "alacritty --class wiremix --title Wiremix --command zsh -ic wiremix",
+      "on-click-middle": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
+      "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
   },
   "custom/weather": {
     "exec": "${HOME}/.local/bin/waybar-wttr Paris+France",
@@ -60,13 +93,13 @@
   },
   "network": {
     // "interface": "wlp5*", // (Optional) To force the use of this interface
-    "format-wifi": "   ({signalStrength}%)",
+    "format-wifi": " ({signalStrength}%)",
     "format-ethernet": "{ipaddr}/{cidr} ",
-    "tooltip-format-wifi": "   {essid} ",
+    "tooltip-format-wifi": "  {essid} ",
     "tooltip-format": "{ifname} via {gwaddr} ",
     "format-linked": "{ifname} (No IP) ",
     "format-disconnected": "Disconnected ⚠",
-    "on-click": "nm-connection-editor",
+    "on-click": "alacritty --class impala --title Impala --command zsh -ic impala",
     // "format-alt": "{ifname}: {ipaddr}/{cidr}"
   },
   "clock": {
@@ -78,7 +111,7 @@
   },
   "custom/power": {
     "format": "  ",
-    "on-click": "bash ~/.local/bin/waybar-leave",
+    "on-click": "bash ~/.local/bin/powermenu",
     "tooltip": false
   },
   /*"temperature": {
