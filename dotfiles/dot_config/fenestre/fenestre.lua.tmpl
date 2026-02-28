@@ -1,0 +1,225 @@
+local launcher = "fuzzel --placeholder Launching..."
+local terminal = "alacritty"
+local browser = "firefox"
+local mail = "thunderbird"
+local sndmgr = terminal .. " --class wiremix --title Wiremix --command zsh -ic wiremix"
+local netmgr = terminal .. " --class impala --title Impala --command zsh -ic impala"
+local filemgr = terminal .. " --class yazi --title Yazi --command zsh -ic yazi"
+
+local function kb(keysym, mods, cmd)
+	return { keysym = keysym, modifiers = mods, command = cmd }
+end
+
+local function spawn(prog)
+	local cmd = { "spawn" }
+	for arg in prog:gmatch("%S+") do
+		cmd[#cmd + 1] = arg
+	end
+	return cmd
+end
+
+local function merge_rules(...)
+	local result = {}
+	for _, rules in ipairs({ ... }) do
+		for _, rule in ipairs(rules) do
+			table.insert(result, rule)
+		end
+	end
+	return result
+end
+
+local function make_rules(entries, mode)
+	local rules = {}
+	for _, entry in ipairs(entries) do
+		local rule = {
+			mode = mode,
+		}
+		if type(entry) == "string" then
+			rule.app_id = entry
+		elseif type(entry) == "table" then
+			for key, value in pairs(entry) do
+				rule[key] = value
+			end
+		else
+			error("Invalid rule entry type: " .. type(entry))
+		end
+		rules[#rules + 1] = rule
+	end
+	return rules
+end
+
+local super = { "super" }
+local supShift = { "super", "shift" }
+local supAlt = { "super", "alt" }
+local supAltShift = { "super", "alt", "shift" }
+local supCtrl = { "super", "control" }
+
+local kbs = {
+	-- Super+Shift+E = exit river
+	kb("e", supShift, "exit_river"),
+
+	-- Super+Control+R = reload config
+	kb("r", supCtrl, "reload_config"),
+
+	-- Super+{T, Shift+T, S, F} = toggle tiled/pseudo tiled/floating/fullscreen modes
+	kb("t", super, "tiled"),
+	kb("t", supShift, "toggle_pseudo_tiled"),
+	kb("s", super, "toggle_floating"),
+	kb("f", super, "toggle_fullscreen"),
+
+	-- Super+Q = close the focused window
+	kb("q", super, "close"),
+
+	-- Super+Tab+{, Shift} = focus the next/previous window in the stack
+	kb("tab", super, "focus_next"),
+	kb("tab", supShift, "focus_previous"),
+
+	-- Super+{|, \} = select next split direction
+	kb("bar", super, "toggle_pending_split_vertical"),
+	kb("backslash", super, "toggle_pending_split_horizontal"),
+
+	-- Super+Escape = cancel split pre-selection
+	kb("Escape", super, "cancel_pending_split"),
+
+	-- Super+Return = start terminal
+	kb("Return", super, spawn(terminal)),
+
+	-- Super+E = start file manager
+	kb("e", super, spawn(filemgr)),
+
+	-- Super+Space = start launcher
+	kb("space", super, spawn(launcher)),
+
+	-- Super+C = capture voice
+	kb("c", super, spawn("/home/tony/.local/bin/handy-capture")),
+
+	-- Super+V = start clipboard manager
+	kb("v", super, spawn("/home/tony/.local/bin/cliphist-fuzzel")),
+
+	-- Print               = print with grim
+	-- Control+Print       = capture screen
+	-- Control+Shift+Print = capture area
+	kb("Print", {}, spawn("/home/tony/.local/bin/grim-capture all")),
+	kb("Print", { "control" }, spawn("/home/tony/.local/bin/grim-capture screen")),
+	kb("Print", { "control", "shift" }, spawn("/home/tony/.local/bin/grim-capture area")),
+
+	-- Eject the optical drive (well if you still have one that is)
+	kb("XF86Eject", {}, spawn("eject -T")),
+
+	-- Control pulse audio volume with pamixer (https://github.com/cdemoulins/pamixer)
+	kb("XF86AudioRaiseVolume", {}, spawn("/home/tony/.local/bin/volume up")),
+	kb("XF86AudioLowerVolume", {}, spawn("/home/tony/.local/bin/volume down")),
+	kb("XF86AudioMute", {}, spawn("/home/tony/.local/bin/volume mute")),
+
+	-- Control MPRIS aware media players with playerctl (https://github.com/altdesktop/playerctl)
+	kb("XF86AudioMedia", {}, spawn("playerctl play-pause")),
+	kb("XF86AudioPlay", {}, spawn("playerctl play-pause")),
+	kb("XF86AudioPrev", {}, spawn("playerctl previous")),
+	kb("XF86AudioNext", {}, spawn("playerctl next")),
+
+	-- Control screen backlight brightness with brightnessctl (https://github.com/Hummer12007/brightnessctl)
+	kb("XF86MonBrightnessUp", {}, spawn("brightnessctl set +5%")),
+	kb("XF86MonBrightnessDown", {}, spawn("brightnessctl set 5%-")),
+}
+
+-- Super+{H,J,K,L}           = navigate between tiling windows
+-- Super+Shift+{H,J,K,L}     = swap tiling windows or move floating windows
+-- Super+Alt+{H,J,K,L}       = expand windows
+-- Super+Shift+Alt+{H,J,K,L} = shrink windows
+local dirs = { left = "h", down = "j", up = "k", right = "l" }
+for dir, key in pairs(dirs) do
+	kbs[#kbs + 1] = kb(key, super, "focus_" .. dir)
+	kbs[#kbs + 1] = kb(key, supShift, "move_" .. dir)
+	kbs[#kbs + 1] = kb(key, supAlt, "resize_expand_" .. dir)
+	kbs[#kbs + 1] = kb(key, supAltShift, "resize_shrink_" .. dir)
+	kbs[#kbs + 1] = kb(key, supCtrl, "focus_output_" .. dir)
+end
+
+local pseudo_tiled = {}
+
+local floating = {
+	"yazi",
+	"wiremix",
+	"impala",
+	"nm-connection-editor",
+	{ app_id = "firefox", title = "About Mozilla Firefox" },
+	{ app_id = "firefox", title = "Library" },
+	{ app_id = "firefox", title = "Picture-in-Picture" },
+	{
+		app_id = "org.mozilla.Thunderbird",
+		title = { value = "Enter your password", match = "prefix" },
+	},
+	{ app_id = "steam", floating_rect = { width = 1280, height = 1080 } },
+	{ app_id = "KeePass2", title = { value = "Open Database", match = "prefix" } },
+	{ title = "Open Database File" },
+}
+
+local fullscreen = {
+	"imv",
+	"mpv",
+	"cs2",
+}
+
+return {
+	decorations = false,
+	border_width = 2,
+	border_color_focused = 0xff93a1a1,
+	border_color_unfocused = 0xff586e75,
+	layout = {
+		gap = 15,
+		margin_top = -10,
+		margin_right = 5,
+		margin_bottom = 5,
+		margin_left = 5,
+		default_float_ratio = 0.4,
+		preview_border_color = 0xffff0000,
+		preview_border_width = 5,
+	},
+	keyboard_layout = {
+		layout = "us",
+		variant = "intl",
+	},
+	input_devices = {
+		{
+			name = "Compx RapidSync",
+			accel_profile = "flat",
+			accel_speed = 0.0,
+			scroll_factor = 1.0,
+		},
+		{
+			name = "Razer Razer DeathAdder V3",
+			accel_profile = "flat",
+			accel_speed = 0.0,
+			scroll_factor = 1.0,
+		},
+		{
+			name = "Keychron Keychron Q4 HE Keyboard",
+			repeat_rate = 50,
+			repeat_delay = 300,
+		},
+    {{- if eq .hostname "exile" }}
+		{
+			name = "SynPS/2 Synaptics TouchPad",
+			tap = true,
+			tap_button_map = "left-middle-right",
+			natural_scroll = true,
+			scroll_method = "two-finger",
+			dwt = true,
+		},
+		{
+			name = "AT Translated Set 2 keyboard",
+			repeat_rate = 50,
+			repeat_delay = 300,
+		},
+    {{- end }}
+	},
+	keybindings = kbs,
+	rules = merge_rules(
+		-- Spawn to
+		-- Waiting for River workspaces!
+
+		make_rules(pseudo_tiled, "pseudo_tiled"),
+		make_rules(floating, "floating"),
+		make_rules(fullscreen, "fullscreen")
+	),
+}
